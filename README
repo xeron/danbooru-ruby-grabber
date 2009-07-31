@@ -8,9 +8,7 @@ ruby danbooru.rb "tag1 tag2 etc"
 
 Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 
-You need nokogiri to be installed.
-
-You can install it by this command:
+You need nokogiri to be installed. You can install it by this command:
 
 gem install nokogiri
 
