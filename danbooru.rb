@@ -1,5 +1,5 @@
 # data example
-# http://danbooru.donmai.us/post/index.xml/?limit=10&page=1&tags=konpaku_youmu
+# http://danbooru.donmai.us/post/index.xml?limit=10&page=1&tags=konpaku_youmu
 # api here
 # http://danbooru.donmai.us/help/api
 
