@@ -15,7 +15,7 @@ class Danbooru
   def initialize(tags)
     @num = 1
     @page = 1
-    @tag = tags.gsub(" ","_")
+    @tag = tags.gsub(" ","+")
     FileUtils.mkdir_p @tag
     path = File.join(@tag,"files.bbs")
     @bbs = File.new(path,"a+")
