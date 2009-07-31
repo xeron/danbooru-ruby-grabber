@@ -4,7 +4,11 @@ I think it can be used for other danbooru-powered sites, but I never test it.
 
 Usage:
 
-ruby danbooru.rb "tag1 tag2 etc"
+ruby danbooru.rb tag
+
+or
+
+ruby danbooru.rb "tag1 tag2"
 
 Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 
@@ -12,7 +16,7 @@ You need nokogiri to be installed. You can install it by this command:
 
 gem install nokogiri
 
-Note: may be you need to use sudo
+Note: may be you need to use sudo.
 
 Have fun.
 

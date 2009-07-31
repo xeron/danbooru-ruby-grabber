@@ -92,6 +92,7 @@ end
 
 if ARGV.length == 0 || ARGV[0].empty?
   puts "Usage: danbooru.rb \"tags\""
+  puts "You can use up to 2 tags."
 else
   puts "tags are #{ARGV[0]}"
   d = Danbooru.new(ARGV[0])
