@@ -1,0 +1,9 @@
+danbooru-ruby-grabber is a simple script for download images from danbooru.donmai.us.
+
+I think it can be used for other danbooru-powered sites, but I never test it.
+
+Usage:
+
+ruby danbooru.rb "tag1 tag2 etc"
+
+Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
