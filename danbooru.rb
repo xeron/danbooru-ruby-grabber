@@ -3,7 +3,7 @@
 # api here
 # http://danbooru.donmai.us/help/api
 
-# version 0.1-dev
+# version 0.2-dev
 
 require 'rubygems'
 require 'open-uri'
@@ -52,6 +52,7 @@ class Danbooru
         data = open("http://danbooru.donmai.us/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}").read
       rescue => ex
         puts "Error reading data — #{ex}"
+        sleep 2
       end
     end
     @doc = Nokogiri::XML(data)
