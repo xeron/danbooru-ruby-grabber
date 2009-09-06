@@ -7,7 +7,7 @@ Usage: danbooru.rb [options] "tags"
     -u, --user USERNAME              Username
     -p, --password PASSWORD          Password
 
-You can use up to 2 tags. Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
+You can use up to 2 tags with basic account. Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 
 You need nokogiri to be installed. You can install it by this command:
 
