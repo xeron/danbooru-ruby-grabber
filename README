@@ -5,7 +5,7 @@ I think it can be used for other danbooru-powered sites, but I never test it.
 Usage: danbooru.rb [-w] "tags"
     -w, --wget                       Use wget for download
 
-Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
+You can use up to 2 tags. Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 
 You need nokogiri to be installed. You can install it by this command:
 

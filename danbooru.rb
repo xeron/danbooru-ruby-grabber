@@ -31,7 +31,7 @@ class Danbooru
       download
       next_page
     end
-    puts "Thats all"
+    puts "Thats all."
   end
 
   private
