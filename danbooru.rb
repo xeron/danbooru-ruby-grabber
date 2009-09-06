@@ -3,12 +3,13 @@
 # api here
 # http://danbooru.donmai.us/help/api
 
-# version 0.2-dev
+# version 0.3-dev
 
 require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
 require 'fileutils'
+require 'optparse'
 
 class Danbooru
 
@@ -72,7 +73,11 @@ class Danbooru
         puts "File exist - #{filename} (#{@num}/#{@count})"
       else
         puts "saving #{filename}... (#{@num}/#{@count})"
-        open(filename,"wb").write(open(url).read)
+        if options[:wget]
+          `wget -c #{url} -O #{filename}`
+        else
+          open(filename,"wb").write(open(url).read)
+        end
         puts "saved!"
       end
       write_tags(filename,tags) if !@old_file.include?(filename)
@@ -82,18 +87,26 @@ class Danbooru
 
 end
 
-#if ARGV.length == 0
-#  puts "Usage: danbooru.rb tags=\"bla bla\" limit=100 offset=10"
-#  exit 0
-#end
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: danbooru.rb [options] \"tags\""
+  opts.on( '-w', '--wget', 'Use wget for download' ) do
+    options[:wget] = true
+  end
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+end
 
-#@params = {}
-#  ARGV.each { |arg| @params.merge!(Hash[*arg.split('=')])}
-#pp @params
+begin
+  optparse.parse!
+rescue => ex
+  puts ex
+end
 
 if ARGV.length == 0 || ARGV[0].empty?
-  puts "Usage: danbooru.rb \"tags\""
-  puts "You can use up to 2 tags."
+  puts optparse.help
 else
   puts "tags are #{ARGV[0]}"
   d = Danbooru.new(ARGV[0])
