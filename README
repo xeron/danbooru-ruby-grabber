@@ -2,8 +2,10 @@ danbooru-ruby-grabber is a simple script for download images from danbooru.donma
 
 I think it can be used for other danbooru-powered sites, but I never test it.
 
-Usage: danbooru.rb [-w] "tags"
+Usage: danbooru.rb [options] "tags"
     -w, --wget                       Use wget for download
+    -u, --user USERNAME              Username
+    -p, --password PASSWORD          Password
 
 You can use up to 2 tags. Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 

@@ -3,17 +3,19 @@
 # api here
 # http://danbooru.donmai.us/help/api
 
-# version 0.3-dev
+# version 0.4-dev
 
 require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
 require 'fileutils'
 require 'optparse'
+require 'digest/sha1'
 
 class Danbooru
 
-  def initialize(tags)
+  def initialize(tags, options)
+    @options = options
     @num = 1
     @page = 1
     @tag = tags.gsub(" ","+")
@@ -50,7 +52,7 @@ class Danbooru
     data = ""
     while data.empty?
       begin
-        data = open("http://danbooru.donmai.us/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}").read
+        data = open("http://danbooru.donmai.us/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}").read
       rescue => ex
         puts "Error reading data — #{ex}"
         sleep 2
@@ -73,7 +75,7 @@ class Danbooru
         puts "File exist - #{filename} (#{@num}/#{@count})"
       else
         puts "saving #{filename}... (#{@num}/#{@count})"
-        if options[:wget]
+        if @options[:wget]
           `wget -c #{url} -O #{filename}`
         else
           open(filename,"wb").write(open(url).read)
@@ -93,6 +95,12 @@ optparse = OptionParser.new do |opts|
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
   end
+  opts.on( '-u', '--user USERNAME', 'Username' ) do |u|
+    options[:user] = u
+  end
+  opts.on( '-p', '--password PASSWORD', 'Password' ) do |p|
+    options[:password] = Digest::SHA1.hexdigest("choujin-steiner--#{p}--")
+  end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
     exit
@@ -109,6 +117,6 @@ if ARGV.length == 0 || ARGV[0].empty?
   puts optparse.help
 else
   puts "tags are #{ARGV[0]}"
-  d = Danbooru.new(ARGV[0])
+  d = Danbooru.new(ARGV[0], options)
   d.download_all
 end
