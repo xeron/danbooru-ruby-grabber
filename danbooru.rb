@@ -1,9 +1,11 @@
-# data example
+# data examples
 # http://danbooru.donmai.us/post/index.xml?limit=10&page=1&tags=konpaku_youmu
+# http://konachan.com/post/index.xml?limit=10&page=1&tags=black_rock_shooter
 # api here
 # http://danbooru.donmai.us/help/api
+# http://konachan.com/help/api
 
-# version 0.4-dev
+# version 0.5
 
 require 'rubygems'
 require 'open-uri'
@@ -25,7 +27,7 @@ class Danbooru
     @old_file = @bbs.read
     get_data(@page)
     @count = @doc.root["count"]
-    @pages = @count.to_i/100 + 1
+    @pages = @count.to_i/100 + 1 # one extra page for checking up
   end
 
   def download_all
@@ -52,7 +54,12 @@ class Danbooru
     data = ""
     while data.empty?
       begin
-        data = open("http://danbooru.donmai.us/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}").read
+        if @options[:kona]
+          data_url = "http://konachan.com"
+        else
+          data_url = "http://danbooru.donmai.us"
+        end
+        data = open("#{data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}").read
       rescue => ex
         puts "Error reading data — #{ex}"
         sleep 2
@@ -69,14 +76,14 @@ class Danbooru
   def download
     @posts.each do |post|
       url = post["file_url"]
-      filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/",""))
+      filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub(/http:\/\/kuro.hanyuu.net\/image\/.*\//,"").gsub("%20"," "))
       tags = post["tags"]
       if File.exist?(filename) && !File.zero?(filename)
         puts "File exist - #{filename} (#{@num}/#{@count})"
       else
         puts "saving #{filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -c #{url} -O #{filename}`
+          `wget -c '#{url}' -O '#{filename}'`
         else
           open(filename,"wb").write(open(url).read)
         end
@@ -92,6 +99,9 @@ end
 options = {}
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: danbooru.rb [options] \"tags\""
+  opts.on( '-k', '--konachan', 'Download from konachan.com' ) do
+    options[:kona] = true
+  end
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
   end
@@ -99,7 +109,12 @@ optparse = OptionParser.new do |opts|
     options[:user] = u
   end
   opts.on( '-p', '--password PASSWORD', 'Password' ) do |p|
-    options[:password] = Digest::SHA1.hexdigest("choujin-steiner--#{p}--")
+    if options[:kona]
+      password_string = "So-I-Heard-You-Like-Mupkids-?"
+    else
+      password_string = "choujin-steiner"
+    end
+    options[:password] = Digest::SHA1.hexdigest("#{password_string}--#{p}--")
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
