@@ -100,7 +100,7 @@ end
 options = {}
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: danbooru.rb [options] \"tags\""
-  opts.on( '-k', '--konachan', 'Download from konachan.com' ) do
+  opts.on( '-k', '--konachan', 'Download from konachan.com instead of danbooru.donmai.us' ) do
     options[:kona] = true
   end
   opts.on( '-w', '--wget', 'Use wget for download' ) do

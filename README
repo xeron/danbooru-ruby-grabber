@@ -1,7 +1,7 @@
 danbooru-ruby-grabber is a simple script for download images from danbooru.donmai.us and konachan.com.
 
 Usage: danbooru.rb [options] "tags"
-    -k, --konachan                   Download from konachan.com
+    -k, --konachan                   Download from konachan.com instead of danbooru.donmai.us
     -w, --wget                       Use wget for download
     -u, --user USERNAME              Username
     -p, --password PASSWORD          Password
