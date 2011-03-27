@@ -77,7 +77,7 @@ class Danbooru
     @posts.each do |post|
       url = post["file_url"]
       md5 = post["md5"]
-      filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("%20"," "))
+      filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("http://victorica.hanyuu.net/image/#{md5}/","").gsub("%20"," "))
       tags = post["tags"]
       if File.exist?(filename) && !File.zero?(filename)
         puts "File exist - #{filename} (#{@num}/#{@count})"
