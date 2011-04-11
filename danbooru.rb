@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # data examples
 # http://danbooru.donmai.us/post/index.xml?limit=10&page=1&tags=konpaku_youmu
 # http://konachan.com/post/index.xml?limit=10&page=1&tags=black_rock_shooter
