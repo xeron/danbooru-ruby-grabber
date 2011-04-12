@@ -7,7 +7,10 @@
 # http://danbooru.donmai.us/help/api
 # http://konachan.com/help/api
 
-# version 0.5
+# Author: Ivan "Xeron" Larionov
+# E-mail: xeron.oskom@gmail.com
+# Homepage: http://xeron.13f.ru
+# Version: 0.7
 
 require 'rubygems'
 require 'open-uri'
@@ -15,6 +18,7 @@ require 'nokogiri'
 require 'fileutils'
 require 'optparse'
 require 'digest/sha1'
+require 'digest/md5'
 
 class Danbooru
 
@@ -81,12 +85,14 @@ class Danbooru
       md5 = post["md5"]
       filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("http://victorica.hanyuu.net/image/#{md5}/","").gsub("%20"," "))
       tags = post["tags"]
-      if File.exist?(filename) && !File.zero?(filename)
+      if File.exist?(filename) && md5 == Digest::MD5.hexdigest(File.read(filename))
         puts "File exist - #{filename} (#{@num}/#{@count})"
       else
         puts "saving #{filename}... (#{@num}/#{@count})"
         if @options[:wget]
           `wget -nv -c '#{url}' -O '#{filename}'`
+        elsif @options[:curl] && !@options[:wget]
+          `curl -C - --progress-bar -o '#{filename}' '#{url}'`
         else
           open(filename,"wb").write(open(url).read)
         end
@@ -107,6 +113,9 @@ optparse = OptionParser.new do |opts|
   end
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
+  end
+  opts.on( '-c', '--curl', 'Use curl for download' ) do
+    options[:curl] = true
   end
   opts.on( '-u', '--user USERNAME', 'Username' ) do |u|
     options[:user] = u

@@ -3,6 +3,7 @@ danbooru-ruby-grabber is a danbooru downloader — simple script for download im
 Usage: danbooru.rb [options] "tags"
     -k, --konachan                   Download from konachan.com instead of danbooru.donmai.us
     -w, --wget                       Use wget for download
+    -c, --curl                       Use curl for download
     -u, --user USERNAME              Username
     -p, --password PASSWORD          Password
 
