@@ -86,7 +86,7 @@ class Danbooru
       else
         puts "saving #{filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -c '#{url}' -O '#{filename}'`
+          `wget -nv -c '#{url}' -O '#{filename}'`
         else
           open(filename,"wb").write(open(url).read)
         end
