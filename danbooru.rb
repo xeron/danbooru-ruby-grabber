@@ -91,7 +91,7 @@ class Danbooru
         puts "saving #{filename}... (#{@num}/#{@count})"
         if @options[:wget]
           `wget -nv -c '#{url}' -O '#{filename}'`
-        elsif @options[:curl] && !@options[:wget]
+        elsif @options[:curl]
           `curl -C - --progress-bar -o '#{filename}' '#{url}'`
         else
           open(filename,"wb").write(open(url).read)
