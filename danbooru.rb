@@ -92,9 +92,9 @@ class Danbooru
       else
         puts "saving #{real_filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -nv -c '#{url}' -O '#{real_filename}'`
+          `wget -nv '#{url}' -O '#{real_filename}'`
         elsif @options[:curl]
-          `curl -C - --progress-bar -o '#{real_filename}' '#{url}'`
+          `curl --progress-bar -o '#{real_filename}' '#{url}'`
         else
           open(real_filename,"wb").write(open(url).read)
         end
