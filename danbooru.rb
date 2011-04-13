@@ -42,7 +42,7 @@ class Danbooru
       download
       next_page
     end
-    puts "Thats all."
+    puts "Thats all for #{@tag}."
   end
 
   private
