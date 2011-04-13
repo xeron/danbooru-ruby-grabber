@@ -10,7 +10,7 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 0.7
+# Version: 0.8
 
 require 'rubygems'
 require 'open-uri'
@@ -26,10 +26,11 @@ class Danbooru
     @options = options
     @num = 1
     @page = 1
-    @tag = tags.gsub(" ","+")
+    @tag = tags.gsub(" ", "+")
     FileUtils.mkdir_p @tag
-    path = File.join(@tag,"files.bbs")
-    @bbs = File.new(path,"a+")
+    FileUtils.mkdir_p @options[:storage] if @options[:storage]
+    @options[:storage] ? bbs_path = File.join(@options[:storage], "files.bbs") : bbs_path = File.join(@tag, "files.bbs")
+    @bbs = File.new(bbs_path, "a+")
     @old_file = @bbs.read
     get_data(@page)
     @count = @doc.root["count"]
@@ -75,7 +76,7 @@ class Danbooru
     @posts = @doc.xpath("//posts/post")
   end
 
-  def write_tags(filename,tags)
+  def write_tags(filename, tags)
     @bbs.puts "#{filename} - #{tags}"
   end
 
@@ -83,22 +84,24 @@ class Danbooru
     @posts.each do |post|
       url = post["file_url"]
       md5 = post["md5"]
-      filename = File.join(@tag,url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("http://victorica.hanyuu.net/image/#{md5}/","").gsub("%20"," "))
+      filename = url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("http://victorica.hanyuu.net/image/#{md5}/","").gsub("%20"," ")
+      @options[:storage] ? real_filename = File.join(@options[:storage], filename) : real_filename = File.join(@tag, filename)
       tags = post["tags"]
-      if File.exist?(filename) && md5 == Digest::MD5.hexdigest(File.read(filename))
-        puts "File exist - #{filename} (#{@num}/#{@count})"
+      if File.exist?(real_filename) && md5 == Digest::MD5.hexdigest(File.read(real_filename))
+        puts "File exist - #{real_filename} (#{@num}/#{@count})"
       else
-        puts "saving #{filename}... (#{@num}/#{@count})"
+        puts "saving #{real_filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -nv -c '#{url}' -O '#{filename}'`
+          `wget -nv -c '#{url}' -O '#{real_filename}'`
         elsif @options[:curl]
-          `curl -C - --progress-bar -o '#{filename}' '#{url}'`
+          `curl -C - --progress-bar -o '#{real_filename}' '#{url}'`
         else
-          open(filename,"wb").write(open(url).read)
+          open(real_filename,"wb").write(open(url).read)
         end
         puts "saved!"
       end
-      write_tags(filename,tags) if !@old_file.include?(filename)
+      FileUtils.ln_sf(File.join("..", real_filename), File.join(@tag, filename)) if @options[:storage]
+      write_tags(filename, tags) if !@old_file.include?(filename)
       @num += 1
     end
   end
@@ -116,6 +119,9 @@ optparse = OptionParser.new do |opts|
   end
   opts.on( '-c', '--curl', 'Use curl for download' ) do
     options[:curl] = true
+  end
+  opts.on( '-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)' ) do |d|
+    options[:storage] = d
   end
   opts.on( '-u', '--user USERNAME', 'Username' ) do |u|
     options[:user] = u
