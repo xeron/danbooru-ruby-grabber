@@ -3,14 +3,17 @@
 # data examples
 # http://danbooru.donmai.us/post/index.xml?limit=10&page=1&tags=konpaku_youmu
 # http://konachan.com/post/index.xml?limit=10&page=1&tags=black_rock_shooter
+# http://e621.net/post/index.xml?limit=10&page=1&tags=funny
 # api here
 # http://danbooru.donmai.us/help/api
 # http://konachan.com/help/api
+# http://e621.net/help/api
 
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 0.8
+# Version: 0.9
+# Need to clean code and make it more universal before 1.0 :)
 
 require 'rubygems'
 require 'open-uri'
@@ -63,6 +66,8 @@ class Danbooru
       begin
         if @options[:kona]
           data_url = "http://konachan.com"
+        elsif @options[:e621]
+          data_url = "http://e621.net"
         else
           data_url = "http://danbooru.donmai.us"
         end
@@ -80,11 +85,30 @@ class Danbooru
     @bbs.puts "#{filename} - #{tags}"
   end
 
+  def clean_url(url, md5)
+    strings = ["http://s3.amazonaws.com/danbooru/",
+    "http://danbooru.donmai.us/data/",
+    "http://kuro.hanyuu.net/image/#{md5}/",
+    "http://konachan.com/image/#{md5}/",
+    "http://kana.hanyuu.net/image/#{md5}/",
+    "http://victorica.hanyuu.net/image/#{md5}/",
+    "http://e621.net/"]
+    strings.each do |str|
+      url = url.gsub(str, "")
+    end
+    if @options[:e621]
+      url = url.gsub(/\/data\/.{2}\/.{2}\//,"")
+    end
+    url = url.gsub("%20"," ")
+    return url
+  end
+
   def download
     @posts.each do |post|
       url = post["file_url"]
+      url = "http://e621.net#{url}" if @options[:e621]
       md5 = post["md5"]
-      filename = url.gsub("http://s3.amazonaws.com/danbooru/","").gsub("http://danbooru.donmai.us/data/","").gsub("http://kuro.hanyuu.net/image/#{md5}/","").gsub("http://konachan.com/image/#{md5}/","").gsub("http://kana.hanyuu.net/image/#{md5}/","").gsub("http://victorica.hanyuu.net/image/#{md5}/","").gsub("%20"," ")
+      filename = clean_url(url, md5)
       @options[:storage] ? real_filename = File.join(@options[:storage], filename) : real_filename = File.join(@tag, filename)
       tags = post["tags"]
       if File.exist?(real_filename) && md5 == Digest::MD5.hexdigest(File.read(real_filename))
@@ -114,6 +138,9 @@ optparse = OptionParser.new do |opts|
   opts.on( '-k', '--konachan', 'Download from konachan.com instead of danbooru.donmai.us' ) do
     options[:kona] = true
   end
+  opts.on( '-e', '--e621', 'Download from e621.net instead of danbooru.donmai.us' ) do
+    options[:e621] = true
+  end
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
   end
@@ -133,6 +160,7 @@ optparse = OptionParser.new do |opts|
       password_string = "choujin-steiner"
     end
     options[:password] = Digest::SHA1.hexdigest("#{password_string}--#{p}--")
+    options[:password] = Digest::SHA1.hexdigest(p) if options[:e621]
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
