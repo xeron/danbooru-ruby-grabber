@@ -97,7 +97,7 @@ class Danbooru
       url = url.gsub(str, "")
     end
     if @options[:e621]
-      url = url.gsub(/\/data\/.{2}\/.{2}\//,"")
+      url = url.gsub(/data\/.{2}\/.{2}\//,"")
     end
     url = url.gsub("%20"," ")
     return url
