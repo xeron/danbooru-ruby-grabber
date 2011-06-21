@@ -1,4 +1,4 @@
-danbooru-ruby-grabber is a danbooru downloader — simple script for download images from danbooru.donmai.us and konachan.com.
+danbooru-ruby-grabber is a danbooru downloader — simple script for download images from danbooru.donmai.us, konachan.com and e621.net.
 
 Usage: danbooru.rb [options] "tags"
     -k, --konachan                   Download from konachan.com instead of danbooru.donmai.us
