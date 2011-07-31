@@ -40,7 +40,7 @@ class Booru
     @old_file = @bbs.read
     get_data(@page)
     @count = @doc.root["count"]
-    @pages = @count.to_i/100
+    @pages = @count.to_i/100 + 1
   end
 
   def download_all
