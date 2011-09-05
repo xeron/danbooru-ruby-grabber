@@ -25,6 +25,7 @@ require 'digest/md5'
 class Booru
 
   def initialize(tags, options)
+    @user_agent = "Mozilla/5.0"
     @options = options
     @num = 1
     @page = 1
@@ -67,7 +68,7 @@ class Booru
     data = ""
     while data.empty?
       begin
-        data = open("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}").read
+        data = open("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}", "User-Agent" => @user_agent).read
       rescue => ex
         puts "Error reading data — #{ex}"
         sleep 2
@@ -102,11 +103,11 @@ class Booru
       else
         puts "saving #{real_filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -nv '#{url}' -O '#{real_filename}'`
+          `wget -nv '#{url}' -O '#{real_filename}' --user-agent=#{@user_agent} --referer='#{@referer}'`
         elsif @options[:curl]
-          `curl --progress-bar -o '#{real_filename}' '#{url}'`
+          `curl -A #{@user_agent} -e #{@referer} --progress-bar -o '#{real_filename}' '#{url}'`
         else
-          open(real_filename,"wb").write(open(url).read)
+          open(real_filename,"wb").write(open(url, "User-Agent" => @user_agent, "Referer" => @referer).read)
         end
         puts "saved!"
       end

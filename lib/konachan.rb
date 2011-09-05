@@ -2,6 +2,7 @@ class Konachan < Booru
 
   def initialize(tags, options)
     @data_url = "http://konachan.com"
+    @referer = "http://konachan.com"
     super
   end
 

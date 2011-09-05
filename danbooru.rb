@@ -3,12 +3,13 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 1.0
+# Version: 1.1
 
 require './lib/booru'
 require './lib/danbooru'
 require './lib/konachan'
 require './lib/e621'
+require './lib/behoimi'
 
 options = {}
 optparse = OptionParser.new do |opts|
@@ -18,6 +19,9 @@ optparse = OptionParser.new do |opts|
   end
   opts.on( '-e', '--e621', 'Download from e621.net instead of danbooru.donmai.us' ) do
     options[:e621] = true
+  end
+  opts.on( '-b', '--behoimi', 'Download from behoimi.org instead of danbooru.donmai.us' ) do
+    options[:behoimi] = true
   end
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
@@ -34,6 +38,8 @@ optparse = OptionParser.new do |opts|
   opts.on( '-p', '--password PASSWORD', 'Password' ) do |p|
     if options[:kona]
       password_string = "So-I-Heard-You-Like-Mupkids-?"
+    elsif options[:behoimi]
+      password_string = "meganekko-heaven"
     else
       password_string = "choujin-steiner"
     end
@@ -60,6 +66,8 @@ else
     d = Konachan.new(ARGV[0], options)
   elsif options[:e621]
     d = E621.new(ARGV[0], options)
+  elsif options[:behoimi]
+    d = Behoimi.new(ARGV[0], options)
   else
     d = Danbooru.new(ARGV[0], options)
   end
