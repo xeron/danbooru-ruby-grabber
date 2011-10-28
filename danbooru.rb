@@ -3,7 +3,7 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 1.1
+# Version: 1.2
 
 require './lib/booru'
 require './lib/danbooru'

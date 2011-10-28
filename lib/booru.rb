@@ -9,11 +9,6 @@
 # http://konachan.com/help/api
 # http://e621.net/help/api
 
-# Author: Ivan "Xeron" Larionov
-# E-mail: xeron.oskom@gmail.com
-# Homepage: http://xeron.13f.ru
-# Version: 1.0
-
 require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
