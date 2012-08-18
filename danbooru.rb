@@ -3,13 +3,15 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 1.2
+# Version: 1.3
 
-require './lib/booru'
-require './lib/danbooru'
-require './lib/konachan'
-require './lib/e621'
-require './lib/behoimi'
+$:.unshift File.join(File.dirname(__FILE__), 'lib')
+require 'booru'
+require 'danbooru'
+require 'konachan'
+require 'e621'
+require 'behoimi'
+require 'yandere'
 
 options = {}
 optparse = OptionParser.new do |opts|
@@ -22,6 +24,9 @@ optparse = OptionParser.new do |opts|
   end
   opts.on( '-b', '--behoimi', 'Download from behoimi.org instead of danbooru.donmai.us' ) do
     options[:behoimi] = true
+  end
+  opts.on( '-y', '--yandere', 'Download from yande.re instead of danbooru.donmai.us' ) do
+    options[:yandere] = true
   end
   opts.on( '-w', '--wget', 'Use wget for download' ) do
     options[:wget] = true
@@ -68,6 +73,8 @@ else
     d = E621.new(ARGV[0], options)
   elsif options[:behoimi]
     d = Behoimi.new(ARGV[0], options)
+  elsif options[:yandere]
+    d = Yandere.new(ARGV[0], options)
   else
     d = Danbooru.new(ARGV[0], options)
   end

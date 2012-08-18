@@ -40,7 +40,7 @@ class Booru
   end
 
   def download_all
-    while have_elements do
+    while have_elements? do
       download
       next_page
     end
@@ -49,7 +49,7 @@ class Booru
 
   private
 
-  def have_elements
+  def have_elements?
     @posts.size > 0
   end
 
@@ -78,8 +78,7 @@ class Booru
   end
 
   def clean_url(url, md5)
-    url = url.gsub("%20"," ")
-    return url
+    URI.unescape(url)
   end
 
   def get_url(post)
