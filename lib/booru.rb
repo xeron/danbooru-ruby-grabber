@@ -74,7 +74,7 @@ class Booru
   end
 
   def write_tags(filename, tags)
-    @bbs.puts "#{filename} - #{tags}"
+    @bbs.puts "#{filename.force_encoding("utf-8")} - #{tags.force_encoding("utf-8")}"
   end
 
   def clean_url(url, md5)
@@ -97,9 +97,9 @@ class Booru
       else
         puts "saving #{real_filename}... (#{@num}/#{@count})"
         if @options[:wget]
-          `wget -nv '#{url}' -O '#{real_filename}' --user-agent=#{@user_agent} --referer='#{@referer}'`
+          `wget -nv "#{url}" -O "#{real_filename}" --user-agent="#{@user_agent}" --referer="#{@referer}"`
         elsif @options[:curl]
-          `curl -A #{@user_agent} -e #{@referer} --progress-bar -o '#{real_filename}' '#{url}'`
+          `curl -A "#{@user_agent}" -e "#{@referer}" --progress-bar -o "#{real_filename}" "#{url}"`
         else
           open(real_filename,"wb").write(open(url, "User-Agent" => @user_agent, "Referer" => @referer).read)
         end
