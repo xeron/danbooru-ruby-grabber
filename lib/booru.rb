@@ -11,6 +11,7 @@
 
 require 'rubygems'
 require 'open-uri'
+require 'cgi'
 require 'nokogiri'
 require 'fileutils'
 require 'optparse'
@@ -63,7 +64,7 @@ class Booru
     data = ""
     while data.empty?
       begin
-        data = open("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}", "User-Agent" => @user_agent).read
+        data = open(URI.escape("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}"), "User-Agent" => @user_agent).read
       rescue => ex
         puts "Error reading data — #{ex}"
         sleep 2
@@ -74,11 +75,11 @@ class Booru
   end
 
   def write_tags(filename, tags)
-    @bbs.puts "#{filename.force_encoding("utf-8")} - #{tags.force_encoding("utf-8")}"
+    @bbs.puts "#{filename} - #{tags}"
   end
 
   def clean_url(url, md5)
-    URI.unescape(url)
+    CGI.unescape(url)
   end
 
   def get_url(post)
@@ -106,7 +107,7 @@ class Booru
         puts "saved!"
       end
       FileUtils.ln_sf(File.join("..", real_filename), File.join(@tag, filename)) if @options[:storage]
-      write_tags(filename, tags) if !@old_file.include?(filename)
+      write_tags(filename, tags) unless @old_file.include?(filename)
       @num += 1
     end
   end
