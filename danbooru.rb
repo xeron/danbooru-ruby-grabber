@@ -33,23 +33,21 @@ optparse = OptionParser.new do |opts|
     options[:user] = user
   end
   opts.on('-p', '--password PASSWORD', 'Password') do |pass|
-    password_string =
-      case options[:board]
-      when :konachan
-        "So-I-Heard-You-Like-Mupkids-?"
-      when :behoimi
-        "meganekko-heaven"
-      when :danbooru || :yandere
-        "choujin-steiner"
-      else
-        nil
-      end
-    password_string =
-      if password_string
-        "#{password_string}--#{pass}--"
-      else
-        pass
-      end
+    password_string = case options[:board]
+    when :konachan
+      "So-I-Heard-You-Like-Mupkids-?"
+    when :behoimi
+      "meganekko-heaven"
+    when :danbooru || :yandere
+      "choujin-steiner"
+    else
+      nil
+    end
+    password_string = if password_string
+      "#{password_string}--#{pass}--"
+    else
+      pass
+    end
     options[:password] = Digest::SHA1.hexdigest(password_string)
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
@@ -68,18 +66,17 @@ if ARGV.length == 0 || ARGV[0].empty?
   puts optparse.help
 else
   puts "tags are #{ARGV[0]}"
-  d =
-    case options[:board]
-    when :konachan
-      Konachan.new(ARGV[0], options)
-    when :e621
-      E621.new(ARGV[0], options)
-    when :behoimi
-      Behoimi.new(ARGV[0], options)
-    when :yandere
-      Yandere.new(ARGV[0], options)
-    else
-      Danbooru.new(ARGV[0], options)
-    end
+  d = case options[:board]
+  when :konachan
+    Konachan.new(ARGV[0], options)
+  when :e621
+    E621.new(ARGV[0], options)
+  when :behoimi
+    Behoimi.new(ARGV[0], options)
+  when :yandere
+    Yandere.new(ARGV[0], options)
+  else
+    Danbooru.new(ARGV[0], options)
+  end
   d.download_all
 end
