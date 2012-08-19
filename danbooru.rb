@@ -14,42 +14,43 @@ require 'behoimi'
 require 'yandere'
 
 options = {}
+options[:board] = :danbooru
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: danbooru.rb [options] \"tags\""
-  opts.on( '-k', '--konachan', 'Download from konachan.com instead of danbooru.donmai.us' ) do
-    options[:kona] = true
+  opts.on('-b', '--board BOARDNAME', 'Where from to download. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
+    options[:board] = board.to_sym
   end
-  opts.on( '-e', '--e621', 'Download from e621.net instead of danbooru.donmai.us' ) do
-    options[:e621] = true
+  opts.on('-w', '--wget', 'Use wget for download') do
+    options[:downloader] = :wget
   end
-  opts.on( '-b', '--behoimi', 'Download from behoimi.org instead of danbooru.donmai.us' ) do
-    options[:behoimi] = true
+  opts.on('-c', '--curl', 'Use curl for download') do
+    options[:downloader] = :curl
   end
-  opts.on( '-y', '--yandere', 'Download from yande.re instead of danbooru.donmai.us' ) do
-    options[:yandere] = true
+  opts.on('-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)') do |dir|
+    options[:storage] = dir
   end
-  opts.on( '-w', '--wget', 'Use wget for download' ) do
-    options[:wget] = true
+  opts.on('-u', '--user USERNAME', 'Username') do |user|
+    options[:user] = user
   end
-  opts.on( '-c', '--curl', 'Use curl for download' ) do
-    options[:curl] = true
-  end
-  opts.on( '-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)' ) do |d|
-    options[:storage] = d
-  end
-  opts.on( '-u', '--user USERNAME', 'Username' ) do |u|
-    options[:user] = u
-  end
-  opts.on( '-p', '--password PASSWORD', 'Password' ) do |p|
-    if options[:kona]
-      password_string = "So-I-Heard-You-Like-Mupkids-?"
-    elsif options[:behoimi]
-      password_string = "meganekko-heaven"
-    else
-      password_string = "choujin-steiner"
-    end
-    options[:password] = Digest::SHA1.hexdigest("#{password_string}--#{p}--")
-    options[:password] = Digest::SHA1.hexdigest(p) if options[:e621]
+  opts.on('-p', '--password PASSWORD', 'Password') do |pass|
+    password_string =
+      case options[:board]
+      when :konachan
+        "So-I-Heard-You-Like-Mupkids-?"
+      when :behoimi
+        "meganekko-heaven"
+      when :danbooru || :yandere
+        "choujin-steiner"
+      else
+        nil
+      end
+    password_string =
+      if password_string
+        "#{password_string}--#{pass}--"
+      else
+        pass
+      end
+    options[:password] = Digest::SHA1.hexdigest(password_string)
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
@@ -67,16 +68,18 @@ if ARGV.length == 0 || ARGV[0].empty?
   puts optparse.help
 else
   puts "tags are #{ARGV[0]}"
-  if options[:kona]
-    d = Konachan.new(ARGV[0], options)
-  elsif options[:e621]
-    d = E621.new(ARGV[0], options)
-  elsif options[:behoimi]
-    d = Behoimi.new(ARGV[0], options)
-  elsif options[:yandere]
-    d = Yandere.new(ARGV[0], options)
-  else
-    d = Danbooru.new(ARGV[0], options)
-  end
+  d =
+    case options[:board]
+    when :konachan
+      Konachan.new(ARGV[0], options)
+    when :e621
+      E621.new(ARGV[0], options)
+    when :behoimi
+      Behoimi.new(ARGV[0], options)
+    when :yandere
+      Yandere.new(ARGV[0], options)
+    else
+      Danbooru.new(ARGV[0], options)
+    end
   d.download_all
 end

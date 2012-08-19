@@ -1,14 +1,5 @@
 # coding: utf-8
 
-# data examples
-# http://danbooru.donmai.us/post/index.xml?limit=10&page=1&tags=konpaku_youmu
-# http://konachan.com/post/index.xml?limit=10&page=1&tags=black_rock_shooter
-# http://e621.net/post/index.xml?limit=10&page=1&tags=funny
-# api here
-# http://danbooru.donmai.us/help/api
-# http://konachan.com/help/api
-# http://e621.net/help/api
-
 require 'rubygems'
 require 'open-uri'
 require 'cgi'
@@ -27,14 +18,14 @@ class Booru
     @page = 1
     @tag = tags.gsub(" ", "+")
     FileUtils.mkdir_p @tag
-    FileUtils.mkdir_p @options[:storage] if @options[:storage]
     if @options[:storage]
+      FileUtils.mkdir_p @options[:storage]
       bbs_path = File.join(@options[:storage], "files.bbs")
     else
       bbs_path = File.join(@tag, "files.bbs")
     end
     @bbs = File.new(bbs_path, "a+")
-    @old_file = @bbs.read
+    @old_bbs = @bbs.read
     get_data(@page)
     @count = @doc.root["count"]
     @pages = @count.to_i/100 + 1
@@ -90,24 +81,25 @@ class Booru
     @posts.each do |post|
       url = get_url(post)
       md5 = post["md5"]
-      filename = clean_url(url, md5)
-      @options[:storage] ? real_filename = File.join(@options[:storage], filename) : real_filename = File.join(@tag, filename)
       tags = post["tags"]
+      filename = clean_url(url, md5)
+      real_filename = @options[:storage] ? File.join(@options[:storage], filename) : File.join(@tag, filename)
       if File.exist?(real_filename) && md5 == Digest::MD5.hexdigest(File.read(real_filename))
         puts "File exist - #{real_filename} (#{@num}/#{@count})"
       else
         puts "saving #{real_filename}... (#{@num}/#{@count})"
-        if @options[:wget]
+        case @options[:downloader]
+        when :wget
           `wget -nv "#{url}" -O "#{real_filename}" --user-agent="#{@user_agent}" --referer="#{@referer}"`
-        elsif @options[:curl]
+        when :curl
           `curl -A "#{@user_agent}" -e "#{@referer}" --progress-bar -o "#{real_filename}" "#{url}"`
         else
-          open(real_filename,"wb").write(open(url, "User-Agent" => @user_agent, "Referer" => @referer).read)
+          open(real_filename, "wb").write(open(url, "User-Agent" => @user_agent, "Referer" => @referer).read)
         end
         puts "saved!"
       end
       FileUtils.ln_sf(File.join("..", real_filename), File.join(@tag, filename)) if @options[:storage]
-      write_tags(filename, tags) unless @old_file.include?(filename)
+      write_tags(filename, tags) unless @old_bbs.include?(filename)
       @num += 1
     end
   end
