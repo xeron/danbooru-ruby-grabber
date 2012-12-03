@@ -2,6 +2,7 @@ danbooru-ruby-grabber is a danbooru downloader — simple script for download im
 
 Usage: danbooru.rb [options] "tags"
     -b, --board                      Where from to download. Supported options: danbooru (default), konachan, e621, behoimi, yandere
+    -P, --pool POOLID                Pool ID (tags will be ignored)
     -w, --wget                       Use wget for download
     -c, --curl                       Use curl for download
     -s, --storage DIR                Storage mode (all images in one dir and symlinks in tagged dirs)

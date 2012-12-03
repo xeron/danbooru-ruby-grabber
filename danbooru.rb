@@ -3,7 +3,7 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 1.3
+# Version: 1.4
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
@@ -19,6 +19,13 @@ optparse = OptionParser.new do |opts|
   opts.banner = "Usage: danbooru.rb [options] \"tags\""
   opts.on('-b', '--board BOARDNAME', 'Where from to download. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
     options[:board] = board.to_sym
+  end
+  opts.on('-P', '--pool POOLID', 'Pool ID (tags will be ignored)') do |pool|
+    if pool =~ /\A[+-]?\d+\Z/
+      options[:pool] = pool
+    else
+      $stderr.puts "-P requires numeric ID"
+    end
   end
   opts.on('-w', '--wget', 'Use wget for download') do
     options[:downloader] = :wget
@@ -62,10 +69,14 @@ rescue => ex
   puts ex
 end
 
-if ARGV.length == 0 || ARGV[0].empty?
+if !options[:pool] && (ARGV.length == 0 || ARGV[0].empty?)
   puts optparse.help
 else
-  puts "tags are #{ARGV[0]}"
+  if options[:pool]
+    puts "pool id is #{options[:pool]}"
+  else
+    puts "tags are #{ARGV[0]}"
+  end
   d = case options[:board]
   when :konachan
     Konachan.new(ARGV[0], options)

@@ -16,7 +16,11 @@ class Booru
     @options = options
     @num = 1
     @page = 1
-    @tag = tags.gsub(" ", "+")
+    @tag = if @options[:pool]
+      @options[:pool]
+    else
+      tags.gsub(" ", "+")
+    end
     FileUtils.mkdir_p @tag
     if @options[:storage]
       FileUtils.mkdir_p @options[:storage]
@@ -27,8 +31,17 @@ class Booru
     @bbs = File.new(bbs_path, "a+")
     @old_bbs = @bbs.read
     get_data(@page)
-    @count = @doc.root["count"]
-    @pages = @count.to_i/100 + 1
+    @count = if @options[:pool]
+      @doc.root["post_count"]
+    else
+      @doc.root["count"]
+    end
+    if @posts.size > 0
+      @pages = @count.to_i/@posts.size + 1
+    else
+      puts "No posts for #{@tag}."
+      exit
+    end
   end
 
   def download_all
@@ -53,9 +66,14 @@ class Booru
 
   def get_data(page_num)
     data = ""
+    uri = if @options[:pool]
+      URI.escape("#{@data_url}/pool/show.xml?page=#{page_num}&id=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}")
+    else
+      URI.escape("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}")
+    end
     while data.empty?
       begin
-        data = open(URI.escape("#{@data_url}/post/index.xml?limit=100&page=#{page_num}&tags=#{@tag}&login=#{@options[:user]}&password_hash=#{@options[:password]}"), "User-Agent" => @user_agent).read
+        data = open(uri, "User-Agent" => @user_agent).read
       rescue => ex
         puts "Error reading data — #{ex}"
         sleep 2
