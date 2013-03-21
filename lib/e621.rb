@@ -16,7 +16,7 @@ class E621 < Booru
   end
 
   def get_url(post)
-    url = "http://e621.net#{post["file_url"]}"
+    url = @data_url + post["file_url"]
   end
 
 end

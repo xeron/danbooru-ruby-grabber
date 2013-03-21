@@ -7,8 +7,12 @@ class Danbooru < Booru
   end
 
   def clean_url(url, md5)
-    url = url.gsub(/http:\/\/.+\/.+\//, "")
+    url = url.gsub("#{@data_url}/data/", "")
     super
+  end
+
+  def get_url(post)
+    url = @data_url + post["file_url"]
   end
 
 end
