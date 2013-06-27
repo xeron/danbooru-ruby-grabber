@@ -3,15 +3,15 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://xeron.13f.ru
-# Version: 1.5
+# Version: 2.0
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
 require 'danbooru'
-require 'konachan'
-require 'e621'
-require 'behoimi'
-require 'yandere'
+# require 'konachan'
+# require 'e621'
+# require 'behoimi'
+# require 'yandere'
 
 options = {}
 options[:board] = :danbooru
@@ -73,9 +73,9 @@ if !options[:pool] && (ARGV.length == 0 || ARGV[0].empty?)
   puts optparse.help
 else
   if options[:pool]
-    puts "pool id is #{options[:pool]}"
+    puts "Pool id is #{options[:pool]}."
   else
-    puts "tags are #{ARGV[0]}"
+    puts "Tags are #{ARGV[0]}."
   end
   d = case options[:board]
   when :konachan

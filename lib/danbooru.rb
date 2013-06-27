@@ -1,18 +1,8 @@
 class Danbooru < Booru
 
-  def initialize(tags, options)
-    @data_url = "http://danbooru.donmai.us"
-    @referer = "http://danbooru.donmai.us"
+  def initialize(tag, opts)
     super
-  end
-
-  def clean_url(url, md5)
-    url = url.gsub("#{@data_url}/data/", "")
-    super
-  end
-
-  def get_url(post)
-    url = @data_url + post["file_url"]
+    self.api_base_url = "http://danbooru.donmai.us"
   end
 
 end
