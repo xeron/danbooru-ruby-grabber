@@ -18,7 +18,7 @@ class Booru
   # Integer:: Number of posts
   def posts_count
     if self.class::OLD_API
-      do_request("post.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
+      do_request("post/index.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
     else
       do_request("counts/posts.json", {:tags => tags})["counts"]["posts"]
     end
@@ -48,7 +48,7 @@ class Booru
     url = get_url(post["file_url"])
     filename = get_filename(url)
     md5 = post["md5"]
-    tag_string = post["tag_string"]
+    tag_string = self.class::OLD_API ? post["tags"] : post["tag_string"]
     path = if options[:storage]
       File.join(options[:storage], filename)
     else

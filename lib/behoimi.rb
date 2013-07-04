@@ -15,8 +15,4 @@ class Behoimi < Booru
     do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
   end
 
-  def posts_count
-    do_request("post/index.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
-  end
-
 end

@@ -8,10 +8,10 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
 require 'danbooru'
-require 'yandere'
 require 'konachan'
 require 'e621'
 require 'behoimi'
+require 'yandere'
 
 options = {}
 options[:board] = :danbooru
