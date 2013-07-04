@@ -55,7 +55,7 @@ class Booru
       File.join(tags, filename)
     end
     if File.exist?(path) && md5 == Digest::MD5.hexdigest(File.read(path))
-      puts "File exist - #{path} (#{num}/#{count})"
+      puts "File exists - #{path} (#{num}/#{count})"
     else
       puts "saving #{path}... (#{num}/#{count})"
       download_with_tool(url, path)
@@ -69,7 +69,7 @@ class Booru
     if file_url =~ /^#{URI::regexp}$/
       file_url
     else
-      self.class::API_BASE_URL + post["file_url"]
+      self.class::API_BASE_URL + file_url
     end
   end
 
@@ -80,11 +80,11 @@ class Booru
   def download_with_tool(url, path)
     case options[:downloader]
     when :wget
-      `wget -nv "#{url}" -O "#{path}" --user-agent="#{USER_AGENT}" --referer="#{self.class::API_BASE_URL}"`
+      `wget -nv "#{url}" -O "#{path}" --user-agent="#{USER_AGENT}" --referer="#{@referer}"`
     when :curl
-      `curl -A "#{USER_AGENT}" -e "#{self.class::API_BASE_URL}" --progress-bar -o "#{path}" "#{url}"`
+      `curl -A "#{USER_AGENT}" -e "#{@referer}" --progress-bar -o "#{path}" "#{url}"`
     else
-      open(path, "wb").write(open(url, "User-Agent" => USER_AGENT, "Referer" => self.class::API_BASE_URL).read)
+      open(path, "wb").write(open(url, "User-Agent" => USER_AGENT, "Referer" => @referer).read)
     end
   end
 

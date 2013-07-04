@@ -31,6 +31,7 @@ class Booru
     end
     @bbs = File.new(bbs_path, "a+")
     @old_bbs = @bbs.read
+    @referer = self.class::API_BASE_URL
   end
 
   private
@@ -44,7 +45,7 @@ class Booru
     uri = URI.join(self.class::API_BASE_URL, URI.escape(full_url))
     http_params = {
       "User-Agent" => USER_AGENT,
-      "Referer" => self.class::API_BASE_URL
+      "Referer" => @referer
     }
 
     http = Net::HTTP.new(uri.host, uri.port)

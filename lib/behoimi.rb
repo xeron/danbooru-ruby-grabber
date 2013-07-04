@@ -5,13 +5,18 @@ class Behoimi < Booru
   OLD_API = true
   REFERER = "http://behoimi.org/post/show"
 
-  # def clean_url(url, md5)
-  #   strings = ["http://behoimi.org/"]
-  #   strings.each do |str|
-  #     url = url.gsub(str, "")
-  #   end
-  #   url = url.gsub(/data\/.{2}\/.{2}\//,"")
-  #   super
-  # end
+  def initialize(tag, opts)
+    super
+    @referer = REFERER
+  end
+
+  def posts(page = 1, limit = LIMIT)
+    posts_url = "post/index.json"
+    do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
+  end
+
+  def posts_count
+    do_request("post/index.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
+  end
 
 end
