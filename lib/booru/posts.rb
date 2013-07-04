@@ -21,14 +21,17 @@ class Booru
   # Download all posts
   def download_all
     count = posts_count
-    pages = count/LIMIT + 1
-    num = 1
-    pages.times do |i|
-      page = i + 1
-      puts "Page #{page}/#{pages}:"
-      posts(page, LIMIT).each do |post|
-        download(post, num, count)
-        num +=1
+    if count == 0
+      puts "No posts, nothing to do."
+    else
+      pages = (count.to_f/LIMIT).ceil
+      num = 1
+      1.upto(pages) do |page|
+        puts "Page #{page}/#{pages}:"
+        posts(page, LIMIT).each do |post|
+          download(post, num, count)
+          num += 1
+        end
       end
     end
   end

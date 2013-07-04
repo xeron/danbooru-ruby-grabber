@@ -40,22 +40,7 @@ optparse = OptionParser.new do |opts|
     options[:user] = user
   end
   opts.on('-p', '--password PASSWORD', 'Password') do |pass|
-    password_string = case options[:board]
-    when :konachan
-      "So-I-Heard-You-Like-Mupkids-?"
-    when :behoimi
-      "meganekko-heaven"
-    when :danbooru || :yandere
-      "choujin-steiner"
-    else
-      nil
-    end
-    password_string = if password_string
-      "#{password_string}--#{pass}--"
-    else
-      pass
-    end
-    options[:password] = Digest::SHA1.hexdigest(password_string)
+    options[:password] = pass
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts

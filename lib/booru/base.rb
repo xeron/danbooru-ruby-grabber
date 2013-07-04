@@ -13,13 +13,14 @@ class Booru
 
   USER_AGENT = "Mozilla/5.0"
 
-  attr_accessor :options, :tags, :bbs_path, :api_base_url
+  attr_accessor :options, :tags, :api_base_url, :password_salt
 
   def initialize(tag, opts)
     self.options = opts
     self.tags = options[:pool] || tag.gsub(" ", "+")
+    self.password_salt = "choujin-steiner"
     FileUtils.mkdir_p tags
-    self.bbs_path = if options[:storage]
+    bbs_path = if options[:storage]
       FileUtils.mkdir_p options[:storage]
       File.join(options[:storage], "files.bbs")
     else
@@ -32,7 +33,10 @@ class Booru
   private
 
   def do_request(url, params = {}, method = :get, data = nil)
-    params.merge!({:login => options[:user], :password_hash => options[:password]})
+    params.merge!({
+      :login => options[:user],
+      :password_hash => get_password_hash(options[:password], password_salt)
+    })
     full_url = url + "?" + params.map{|key, val| "#{key}=#{val}"}.join("&")
     uri = URI.join(api_base_url, URI.escape(full_url))
 
@@ -59,7 +63,7 @@ class Booru
     response = http.request(request)
     response_body_hash = JSON.parse(response.body)
 
-    if response_body_hash.include?("success") && response_body_hash["success"] = false
+    if response_body_hash.include?("success") && response_body_hash["success"] == false
       raise response_body_hash
     else
       case response
@@ -68,6 +72,14 @@ class Booru
       else
         return response.value
       end
+    end
+  end
+
+  def get_password_hash(password, salt)
+    if salt
+      Digest::SHA1.hexdigest("#{password_salt}--#{password}--")
+    else
+      options[:password]
     end
   end
 
