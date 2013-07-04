@@ -4,10 +4,12 @@ class Booru
 
   # Get posts
   # http://danbooru.donmai.us/posts.json?limit=100&page=1&tags=touhou&login=USER&password_hash=PASSWORD
+  # https://yande.re/post.json?limit=100&page=1&tags=touhou&login=USER&password_hash=PASSWORD
   # === Returns
   # Array:: Hashes of found posts
   def posts(page = 1, limit = LIMIT)
-    do_request("posts.json", {:tags => tags, :page => page, :limit => limit})
+    posts_url = self.class::OLD_API ? "post.json" : "posts.json"
+    do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
   end
 
   # Get posts count
@@ -15,7 +17,11 @@ class Booru
   # === Returns
   # Integer:: Number of posts
   def posts_count
-    do_request("counts/posts.json", {:tags => tags})["counts"]["posts"]
+    if self.class::OLD_API
+      do_request("post.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
+    else
+      do_request("counts/posts.json", {:tags => tags})["counts"]["posts"]
+    end
   end
 
   # Download all posts
@@ -39,7 +45,7 @@ class Booru
   private
 
   def download(post, num, count)
-    url = get_url(post)
+    url = get_url(post["file_url"])
     filename = get_filename(url)
     md5 = post["md5"]
     tag_string = post["tag_string"]
@@ -59,22 +65,26 @@ class Booru
     write_tags(filename, tag_string) unless @old_bbs.include?(filename)
   end
 
-  def get_url(post)
-    api_base_url + post["file_url"]
+  def get_url(file_url)
+    if file_url =~ /^#{URI::regexp}$/
+      file_url
+    else
+      self.class::API_BASE_URL + post["file_url"]
+    end
   end
 
   def get_filename(url)
-    File.basename(URI.parse(url).path)
+    CGI.unescape(File.basename(URI.parse(url).path))
   end
 
   def download_with_tool(url, path)
     case options[:downloader]
     when :wget
-      `wget -nv "#{url}" -O "#{path}" --user-agent="#{USER_AGENT}" --referer="#{api_base_url}"`
+      `wget -nv "#{url}" -O "#{path}" --user-agent="#{USER_AGENT}" --referer="#{self.class::API_BASE_URL}"`
     when :curl
-      `curl -A "#{USER_AGENT}" -e "#{api_base_url}" --progress-bar -o "#{path}" "#{url}"`
+      `curl -A "#{USER_AGENT}" -e "#{self.class::API_BASE_URL}" --progress-bar -o "#{path}" "#{url}"`
     else
-      open(path, "wb").write(open(url, "User-Agent" => USER_AGENT, "Referer" => api_base_url).read)
+      open(path, "wb").write(open(url, "User-Agent" => USER_AGENT, "Referer" => self.class::API_BASE_URL).read)
     end
   end
 

@@ -1,9 +1,7 @@
 class Yandere < Booru
 
-  def initialize(tags, options)
-    super
-    self.api_base_url = "https://yande.re"
-  end
+  API_BASE_URL = "https://yande.re"
+  OLD_API = true
 
   # def clean_url(url, md5)
   #   url = url.gsub(/https:\/\/.+\/image\/#{md5}\//, "")

@@ -1,10 +1,8 @@
 class E621 < Booru
 
-  def initialize(tags, options)
-    super
-    self.api_base_url = "http://e621.net"
-    self.password_salt = nil
-  end
+  API_BASE_URL = "http://e621.net"
+  PASSWORD_SALT = nil
+  OLD_API = true
 
   # def clean_url(url, md5)
   #   strings = ["http://e621.net/"]

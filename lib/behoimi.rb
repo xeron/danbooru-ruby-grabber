@@ -1,11 +1,9 @@
 class Behoimi < Booru
 
-  def initialize(tags, options)
-    super
-    self.api_base_url = "http://behoimi.org"
-    self.password_salt = "meganekko-heaven"
-    # @referer = "http://behoimi.org/post/show"
-  end
+  API_BASE_URL = "http://behoimi.org"
+  PASSWORD_SALT = "meganekko-heaven"
+  OLD_API = true
+  REFERER = "http://behoimi.org/post/show"
 
   # def clean_url(url, md5)
   #   strings = ["http://behoimi.org/"]
