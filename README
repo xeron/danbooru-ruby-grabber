@@ -13,9 +13,9 @@ Please always use -u and -p options with danbooru, because they block requests w
 
 You can use up to 2 tags with basic account. Images are stored in tag-named directory. Also script creates file named files.bbs with all tags of each image.
 
-You need json to be installed. You can install it by this command:
+You need json and nokogiri gems to be installed. You can install them by this command:
 
-gem install json
+gem install json nokogiri
 Note: may be you need to use sudo.
 
 Have fun.
