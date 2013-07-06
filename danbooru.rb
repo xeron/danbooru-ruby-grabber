@@ -21,11 +21,7 @@ optparse = OptionParser.new do |opts|
     options[:board] = board.to_sym
   end
   opts.on('-P', '--pool POOLID', 'Pool ID (tags will be ignored)') do |pool|
-    if pool =~ /\A[+-]?\d+\Z/
-      options[:pool] = pool
-    else
-      $stderr.puts "-P requires numeric ID"
-    end
+    options[:pool] = pool
   end
   opts.on('-w', '--wget', 'Use wget for download') do
     options[:downloader] = :wget
@@ -57,22 +53,21 @@ end
 if !options[:pool] && (ARGV.length == 0 || ARGV[0].empty?)
   puts optparse.help
 else
-  if options[:pool]
-    puts "Pool id is #{options[:pool]}."
-  else
-    puts "Tags are #{ARGV[0]}."
-  end
-  d = case options[:board]
+  board = case options[:board]
   when :konachan
-    Konachan.new(ARGV[0], options)
+    Konachan.new(options)
   when :e621
-    E621.new(ARGV[0], options)
+    E621.new(options)
   when :behoimi
-    Behoimi.new(ARGV[0], options)
+    Behoimi.new(options)
   when :yandere
-    Yandere.new(ARGV[0], options)
+    Yandere.new(options)
   else
-    Danbooru.new(ARGV[0], options)
+    Danbooru.new(options)
   end
-  d.download_all
+  if options[:pool]
+    board.download_by_pool(options[:pool])
+  else
+    board.download_by_tags(ARGV[0])
+  end
 end

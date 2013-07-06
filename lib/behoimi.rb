@@ -5,12 +5,13 @@ class Behoimi < Booru
   OLD_API = true
   REFERER = "http://behoimi.org/post/show"
 
-  def initialize(tag, opts)
+  def initialize(opts)
     super
     @referer = REFERER
   end
 
-  def posts(page = 1, limit = LIMIT)
+  def posts_by_tags(tags, page = 1, limit = LIMIT)
+    tags = clean_tags(tags)
     posts_url = "post/index.json"
     do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
   end

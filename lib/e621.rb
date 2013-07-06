@@ -4,7 +4,8 @@ class E621 < Booru
   PASSWORD_SALT = nil
   OLD_API = true
 
-  def posts(page = 1, limit = LIMIT)
+  def posts_by_tags(tags, page = 1, limit = LIMIT)
+    tags = clean_tags(tags)
     posts_url = "post/index.json"
     do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
   end

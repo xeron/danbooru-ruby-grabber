@@ -17,20 +17,14 @@ class Booru
   OLD_API = false
   USER_AGENT = "Mozilla/5.0"
 
-  attr_accessor :options, :tags
+  attr_accessor :options
 
-  def initialize(tag, opts)
+  def initialize(opts)
     self.options = opts
-    self.tags = options[:pool] || tag.gsub(" ", "+")
-    FileUtils.mkdir_p tags
     bbs_path = if options[:storage]
       FileUtils.mkdir_p options[:storage]
       File.join(options[:storage], "files.bbs")
-    else
-      File.join(tags, "files.bbs")
     end
-    @bbs = File.new(bbs_path, "a+")
-    @old_bbs = @bbs.read
     @referer = self.class::API_BASE_URL
   end
 
