@@ -8,7 +8,7 @@ class Booru
   def pool(id, page = 1)
     id = clean_pool_id(id)
     if self.class::OLD_API
-      do_request("pool/show.json", {:id => id})
+      do_request("pool/show.json", {:id => id, :page => page})
     else
       do_request("pools/#{id}.json")
     end
