@@ -47,8 +47,7 @@ class Booru
     puts "Tags are #{tags}."
     FileUtils.mkdir_p tags
 
-    # Prepare BBS file
-    bbs_path = File.join(tags, "files.bbs")
+    bbs_path = File.join(options[:storage] || tags, "files.bbs")
     bbs = File.new(bbs_path, "a+")
     old_bbs = bbs.read
 
@@ -112,7 +111,7 @@ class Booru
     when :curl
       `curl -A "#{USER_AGENT}" -e "#{@referer}" --progress-bar -o "#{path}" "#{url}"`
     else
-      open(path, "wb").write(open(url, "User-Agent" => USER_AGENT, "Referer" => @referer).read)
+      open(path, "wb").write(open(url, "rb", "User-Agent" => USER_AGENT, "Referer" => @referer).read)
     end
   end
 

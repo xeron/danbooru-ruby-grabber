@@ -21,10 +21,7 @@ class Booru
 
   def initialize(opts)
     self.options = opts
-    bbs_path = if options[:storage]
-      FileUtils.mkdir_p options[:storage]
-      File.join(options[:storage], "files.bbs")
-    end
+    FileUtils.mkdir_p options[:storage] if options[:storage]
     @referer = self.class::API_BASE_URL
   end
 

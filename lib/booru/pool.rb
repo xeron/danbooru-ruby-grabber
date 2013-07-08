@@ -12,11 +12,9 @@ class Booru
     pool_data = pool(clean_pool_id(id))
     name = pool_data["name"]
     puts "Pool name: #{name}."
-
     FileUtils.mkdir_p name
 
-    # Prepare BBS file
-    bbs_path = File.join(name, "files.bbs")
+    bbs_path = File.join(options[:storage] || name, "files.bbs")
     bbs = File.new(bbs_path, "a+")
     old_bbs = bbs.read
 
