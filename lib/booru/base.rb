@@ -32,7 +32,7 @@ class Booru
       :login => options[:user],
       :password_hash => get_password_hash(options[:password], self.class::PASSWORD_SALT)
     })
-    full_url = url + "?" + params.map{|key, val| "#{key}=#{val}"}.join("&")
+    full_url = url + "?" + params.map { |key, val| "#{key}=#{val}" }.join("&")
     uri = URI.join(self.class::API_BASE_URL, URI.escape(full_url))
     http_params = {
       "User-Agent" => USER_AGENT,
@@ -94,6 +94,20 @@ class Booru
       end
     else
       return response.value
+    end
+  end
+
+  def only_new_api
+    if self.class::OLD_API
+      puts "Supported only with a new API (danbooru.donmai.us)"
+      exit 1
+    end
+  end
+
+  def only_old_api
+    unless self.class::OLD_API
+      puts "Supported only with an old API (not danbooru.donmai.us)"
+      exit 1
     end
   end
 

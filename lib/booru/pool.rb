@@ -1,15 +1,26 @@
 class Booru
 
-  # Get post ids from pool
-  # http://danbooru.donmai.us/pools/1.json?login=USER&password_hash=PASSWORD
+  # Get pool by id
+  # http://danbooru.donmai.us/pools/1.json
+  # https://yande.re/pool/show.json?id=1&page=1
   # === Returns
-  # Array:: Numbers of post ids
-  def pool(id)
-    do_request("pools/#{clean_pool_id(id)}.json")
+  # Hash:: Pool data
+  def pool(id, page = 1)
+    id = clean_pool_id(id)
+    if self.class::OLD_API
+      do_request("pool/show.json", {:id => id})
+    else
+      do_request("pools/#{id}.json")
+    end
   end
 
   def download_by_pool(id)
-    pool_data = pool(clean_pool_id(id))
+    if self.class::OLD_API
+      data = pool(id)
+      pool_data = data["pool"] || data.select { |k| k != "posts" }
+    else
+      pool_data = pool(id)
+    end
     name = pool_data["name"]
     puts "Pool name: #{name}."
     FileUtils.mkdir_p name
@@ -23,9 +34,21 @@ class Booru
       puts "No posts, nothing to do."
     else
       num = 1
-      posts_by_ids(pool_data["post_ids"].split).each do |post|
-        download_post(post, name, num, count, bbs, old_bbs)
-        num += 1
+      if self.class::OLD_API
+        pages = (count.to_f/data["posts"].count).ceil
+        1.upto(pages) do |page|
+          puts "Page #{page}/#{pages}:"
+          pool(id, page)["posts"].each do |post_data|
+            download_post(post_data, name, num, count, bbs, old_bbs)
+            num += 1
+          end
+        end
+      else
+        pool_data["post_ids"].split.each do |post_id|
+          post_data = post(post_id)
+          download_post(post_data, name, num, count, bbs, old_bbs)
+          num += 1
+        end
       end
     end
   end
