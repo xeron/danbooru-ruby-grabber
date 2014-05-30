@@ -66,7 +66,12 @@ class Booru
 
   def download_post(post_data, target, num, count, bbs, old_bbs)
     # Prepare post data
-    url = get_url(post_data["file_url"])
+    if post_data["file_url"]
+      url = get_url(post_data["file_url"])
+    else
+      puts "File url is unknown."
+      return nil
+    end
     filename = get_filename(url)
     md5 = post_data["md5"]
     tag_string = self.class::OLD_API ? post_data["tags"] : post_data["tag_string"]
