@@ -3,7 +3,7 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://blog.xeron.me
-# Version: 2.1
+# Version: 2.2
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'

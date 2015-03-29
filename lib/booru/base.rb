@@ -27,12 +27,12 @@ class Booru
 
   private
 
-  def do_request(url, params = {}, method = :get, data = nil, format = :json)
-    params.merge!({
+  def do_request(url, params = {}, method = :get, data = nil, format = :json, url_prepared = false, limit = 10)
+    full_params = params.merge({
       :login => options[:user],
       :password_hash => get_password_hash(options[:password], self.class::PASSWORD_SALT)
     })
-    full_url = url + "?" + params.map { |key, val| "#{key}=#{val}" }.join("&")
+    full_url = url_prepared ? url : url + "?" + full_params.map { |key, val| "#{key}=#{val}" }.join("&")
     uri = URI.join(self.class::API_BASE_URL, URI.escape(full_url))
     http_params = {
       "User-Agent" => USER_AGENT,
@@ -56,7 +56,17 @@ class Booru
     request.basic_auth(@user, @password)
     response = http.request(request)
 
-    check_response(response, format)
+    case response
+    when Net::HTTPSuccess then parse_response(response, format)
+    when Net::HTTPRedirection
+      unless limit == 0
+        do_request(response["location"], params, method, data, format, true, limit - 1)
+      else
+        $stderr.puts "Too much redirects."
+        exit 1
+      end
+    else return response.value
+    end
   end
 
   def get_password_hash(password, salt)
@@ -67,46 +77,41 @@ class Booru
     end
   end
 
-  def check_response(response, format)
-    case response
-    when Net::HTTPSuccess, Net::HTTPRedirection
-      response_ok = true
+  def parse_response(response, format)
+    response_ok = true
 
-      case format
-      when :json
-        response_body_hash = JSON.parse(response.body)
-        if response_body_hash.include?("success") && response_body_hash["success"] == false
-          response_ok = false
-        end
-      when :xml
-        response_body_hash = Nokogiri::XML(response.body)
-        if response_body_hash.root["success"] == "false"
-          response_ok = false
-        end
-      else
-        raise "Unknown format"
+    case format
+    when :json
+      response_body_hash = JSON.parse(response.body)
+      if response_body_hash.include?("success") && response_body_hash["success"] == false
+        response_ok = false
       end
-
-      if response_ok
-        return response_body_hash
-      else
-        raise response_body_hash
+    when :xml
+      response_body_hash = Nokogiri::XML(response.body)
+      if response_body_hash.root["success"] == "false"
+        response_ok = false
       end
     else
-      return response.value
+      raise "Unknown format"
+    end
+
+    if response_ok
+      return response_body_hash
+    else
+      raise response_body_hash
     end
   end
 
   def only_new_api
     if self.class::OLD_API
-      puts "Supported only with a new API (danbooru.donmai.us)"
+      $stderr.puts "Supported only with a new API (danbooru.donmai.us)"
       exit 1
     end
   end
 
   def only_old_api
     unless self.class::OLD_API
-      puts "Supported only with an old API (not danbooru.donmai.us)"
+      $stderr.puts "Supported only with an old API (not danbooru.donmai.us)"
       exit 1
     end
   end

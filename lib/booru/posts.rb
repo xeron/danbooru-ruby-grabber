@@ -84,7 +84,7 @@ class Booru
     if File.exist?(path) && md5 == Digest::MD5.hexdigest(File.read(path))
       puts "File exists - #{path} (#{num}/#{count})"
     else
-      puts "saving #{path}... (#{num}/#{count})"
+      puts "Saving #{path}... (#{num}/#{count})"
       download_with_tool(url, path)
       puts "saved!"
     end
