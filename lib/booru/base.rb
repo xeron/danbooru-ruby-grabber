@@ -59,7 +59,7 @@ class Booru
     case response
     when Net::HTTPSuccess then parse_response(response, format)
     when Net::HTTPRedirection
-      unless limit == 0
+      if limit > 0
         do_request(response["location"], params, method, data, format, true, limit - 1)
       else
         $stderr.puts "Too much redirects."

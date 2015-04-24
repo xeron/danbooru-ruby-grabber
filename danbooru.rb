@@ -17,16 +17,16 @@ options = {}
 options[:board] = :danbooru
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: danbooru.rb [options] \"tags\""
-  opts.on('-b', '--board BOARDNAME', 'Where from to download. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
+  opts.on('-b', '--board BOARDNAME', 'Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
     options[:board] = board.to_sym
   end
   opts.on('-P', '--pool POOLID', 'Pool ID (tags will be ignored)') do |pool|
     options[:pool] = pool
   end
-  opts.on('-w', '--wget', 'Use wget for download') do
+  opts.on('-w', '--wget', 'Download using wget') do
     options[:downloader] = :wget
   end
-  opts.on('-c', '--curl', 'Use curl for download') do
+  opts.on('-c', '--curl', 'Download using curl') do
     options[:downloader] = :curl
   end
   opts.on('-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)') do |dir|
@@ -38,7 +38,7 @@ optparse = OptionParser.new do |opts|
   opts.on('-p', '--password PASSWORD', 'Password') do |pass|
     options[:password] = pass
   end
-  opts.on( '-h', '--help', 'Display this screen' ) do
+  opts.on( '-h', '--help', 'Print a help message' ) do
     puts opts
     exit
   end
