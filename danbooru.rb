@@ -3,7 +3,7 @@
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://blog.xeron.me
-# Version: 2.2
+# Version: 2.3
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
@@ -31,6 +31,9 @@ optparse = OptionParser.new do |opts|
   end
   opts.on('-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)') do |dir|
     options[:storage] = dir
+  end
+  opts.on('-f', '--filename PATTERN', 'Filename pattern. Supported options: id (default), md5, tags, url (old default)') do |filename|
+    options[:filename] = filename.to_sym
   end
   opts.on('-u', '--user USERNAME', 'Username') do |user|
     options[:user] = user

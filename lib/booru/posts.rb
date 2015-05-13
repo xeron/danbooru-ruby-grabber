@@ -72,7 +72,7 @@ class Booru
       puts "File url is unknown."
       return nil
     end
-    filename = get_filename(url)
+    filename = get_filename(post_data, url)
     md5 = post_data["md5"]
     tag_string = self.class::OLD_API ? post_data["tags"] : post_data["tag_string"]
 
@@ -100,8 +100,21 @@ class Booru
     end
   end
 
-  def get_filename(url)
-    CGI.unescape(File.basename(URI.parse(url).path))
+  def get_filename(post_data, url)
+    real_filename = CGI.unescape(File.basename(URI.parse(url).path))
+    ext = File.extname(real_filename)
+
+    case options[:filename]
+    when :md5
+      post_data["md5"] + ext
+    when :tags
+      tags_key = self.class::OLD_API ? "tags" : "tag_string"
+      post_data[tags_key] + ext
+    when :url
+      real_filename
+    else
+      post_data["id"].to_s + ext
+    end
   end
 
   def download_with_tool(url, path)
