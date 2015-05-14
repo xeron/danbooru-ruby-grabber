@@ -89,7 +89,7 @@ class Booru
       puts "saved!"
     end
     FileUtils.ln_sf(File.join("..", path), File.join(target, filename)) if options[:storage]
-    write_tags(filename, tag_string, bbs) unless old_bbs.include?(filename)
+    write_tags(filename, tag_string, bbs) unless old_bbs =~ /^#{filename}/
   end
 
   def get_url(file_url)
