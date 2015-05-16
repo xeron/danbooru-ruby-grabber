@@ -1,5 +1,7 @@
 def clean_files
-  Dir.rmdir("touhou")
+  %w(touhou).each do |dir|
+    Dir.rmdir(dir)
+  end
 end
 
 # Clean all files before and after each scenario

@@ -66,7 +66,7 @@ class Booru
   private
 
   def download_post(post_data, target, num, count, bbs, old_bbs)
-    exit if options[:limits][:posts] < num
+    exit if options[:limits][:posts] && options[:limits][:posts] < num
 
     # Prepare post data
     if post_data["file_url"]
