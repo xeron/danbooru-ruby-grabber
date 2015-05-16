@@ -1,7 +1,5 @@
 class Booru
 
-  LIMIT = 100
-
   # Get post by id
   # Only new API
   # http://danbooru.donmai.us/posts/$id.json
@@ -17,7 +15,7 @@ class Booru
   # https://yande.re/post.json?tags=touhou&page=1&limit=100
   # === Returns
   # Array:: Hashes of found posts
-  def posts_by_tags(tags, page = 1, limit = LIMIT)
+  def posts_by_tags(tags, page = 1, limit = options[:limits][:per_page])
     tags = clean_tags(tags)
     posts_url = self.class::OLD_API ? "post.json" : "posts.json"
     do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
@@ -50,11 +48,14 @@ class Booru
     if count == 0
       puts "No posts, nothing to do."
     else
-      pages = (count.to_f/LIMIT).ceil
+      pages = (count.to_f/options[:limits][:per_page]).ceil
+      if options[:limits][:pages] && options[:limits][:pages] < pages
+        pages = options[:limits][:pages]
+      end
       num = 1
       1.upto(pages) do |page|
         puts "Page #{page}/#{pages}:"
-        posts_by_tags(tags, page, LIMIT).each do |post_data|
+        posts_by_tags(tags, page, options[:limits][:per_page]).each do |post_data|
           download_post(post_data, tags, num, count, bbs, old_bbs)
           num += 1
         end
@@ -65,6 +66,8 @@ class Booru
   private
 
   def download_post(post_data, target, num, count, bbs, old_bbs)
+    exit if options[:limits][:posts] < num
+
     # Prepare post data
     if post_data["file_url"]
       url = get_url(post_data["file_url"])
