@@ -16,7 +16,7 @@ require 'yandere'
 options = {}
 options[:limits] = {}
 optparse = OptionParser.new do |opts|
-  opts.banner = "Usage: danbooru.rb [options] \"tags\""
+  opts.banner = 'Usage: danbooru.rb [options] "tags"'
 
   opts.separator("\nTarget:")
   opts.on('-b', '--board BOARDNAME', 'Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
