@@ -1,6 +1,6 @@
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y libmagic-dev
+  - sudo apt-get install -y libmagic-dev curl wget
 language: ruby
 bundler_args: --without development
 script: "bundle exec rake spec:ci"
@@ -12,7 +12,6 @@ rvm:
   - 2.1.6
   - 2.0.0
   - 1.9.3
-  - jruby-19mode
   - rbx
 gemfile:
   - Gemfile
