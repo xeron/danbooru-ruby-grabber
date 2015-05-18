@@ -32,6 +32,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nStorage options:")
+  opts.separator("    `-f tags` could miss some files due to filesystems' filename length limitation.")
   opts.on('-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)') do |dir|
     options[:storage] = dir
   end
