@@ -36,7 +36,7 @@ Then(/^I should see downloaded images$/) do
 
   expect(@images.size).to eq @images_count
   @images.each do |image|
-    expect(@fm.file(File.join(@tag, image))).to match "image"
+    expect(@fm.file(File.join(@tag, image))).to match /image|Macromedia Flash/
   end
 end
 
