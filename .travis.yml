@@ -1,6 +1,6 @@
 language: ruby
 bundler_args: --without development
-script: "bundle exec cucumber"
+script: "bundle exec rake spec:ci"
 rvm:
   - 2.2.2
   - 2.1.6
