@@ -6,14 +6,31 @@ danbooru-ruby-grabber is a danbooru downloader — simple script which downloads
 
 ```
 Usage: danbooru.rb [options] "tags"
+
+Target:
     -b, --board BOARDNAME            Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere
-    -P, --pool POOLID                Pool ID (tags will be ignored)
-    -w, --wget                       Download using wget
-    -c, --curl                       Download using curl
+    -P, --pool POOL_ID               Pool ID (tags will be ignored)
+
+Storage options:
+    `-f tags` could miss some files due to filesystems' filename length limitation.
     -s, --storage DIR                Storage mode (all images in one dir and symlinks in tagged dirs)
     -f, --filename PATTERN           Filename pattern. Supported options: id (default), md5, tags, url (old default)
+
+Authentication:
+    This is optional, but recommended since some boards block access without authentication.
     -u, --user USERNAME              Username
     -p, --password PASSWORD          Password
+
+Tools:
+    Ruby's file saver is used by default. You can change it using this options. `wget` or `curl` binaries should be available.
+    -w, --wget                       Download using wget
+    -c, --curl                       Download using curl
+
+Limits:
+    This option could be used multiple times.
+    -l, --limit LIMITER              Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page.
+
+Help:
     -h, --help                       Print a help message
 ```
 
