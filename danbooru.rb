@@ -59,8 +59,8 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nLimits:")
-  opts.separator("    This option could be used multiple times.")
-  opts.on('-l', '--limit LIMITER', 'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page.') do |limiter|
+  opts.separator("    This option could be used multiple times with different limiters.")
+  opts.on('-l', '--limit LIMITER', 'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page') do |limiter|
     if limiter =~ /(pages|posts|per_page)=([1-9][0-9]*)/
       options[:limits][$1.to_sym] = $2.to_i
     else

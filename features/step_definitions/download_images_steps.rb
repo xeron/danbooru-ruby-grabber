@@ -43,7 +43,6 @@ end
 Then(/^I should see images and tags in bbs file$/) do
   bbs = File.open(@bbs_file).read
 
-  expect(@fm.file(@bbs_file)).to match "ASCII text"
   expect(bbs.split("\n").size).to eq @images_count
   expect(bbs).to match @tag
   @images.each do |image|

@@ -27,8 +27,8 @@ Tools:
     -c, --curl                       Download using curl
 
 Limits:
-    This option could be used multiple times.
-    -l, --limit LIMITER              Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page.
+    This option could be used multiple times with different limiters.
+    -l, --limit LIMITER              Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page
 
 Help:
     -h, --help                       Print a help message
