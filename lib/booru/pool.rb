@@ -6,7 +6,6 @@ class Booru
   # === Returns
   # Hash:: Pool data
   def pool(id, page = 1)
-    id = clean_pool_id(id)
     if self.class::OLD_API
       do_request("pool/show.json", {:id => id, :page => page})
     else
@@ -53,29 +52,4 @@ class Booru
     end
   end
 
-  private
-
-  def clean_pool_id(id)
-    if id.numeric_int? && id.to_i > 0
-      id.to_i
-    else
-      $stderr.puts "-P should be a number and > 0. #{id} was given."
-      exit 1
-    end
-  end
-
-end
-
-module NumericCheck
-  def numeric_int?
-    Integer(self) != nil rescue false
-  end
-end
-
-class String
-  include NumericCheck
-end
-
-class Integer
-  include NumericCheck
 end

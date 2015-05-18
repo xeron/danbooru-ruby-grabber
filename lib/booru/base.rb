@@ -23,6 +23,7 @@ class Booru
     self.options = opts
     FileUtils.mkdir_p options[:storage] if options[:storage]
     @referer = self.class::API_BASE_URL
+    options[:limits][:per_page] ||= 100
   end
 
   private
