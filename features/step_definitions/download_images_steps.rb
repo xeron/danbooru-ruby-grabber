@@ -1,19 +1,17 @@
 Given(/^I want to download images from (.*) and save them using (.*)$/) do |board, pattern|
-  @fm = FileMagic.new
-
-  @board = board
+  board = board
+  per_page = 3
+  pages = 2
+  @posts_count = per_page * pages
   @tag = "touhou"
-  @per_page = 3
-  @pages = 2
-  @posts = @per_page * @pages
-  @bbs_file = File.join(@tag, "files.bbs")
 
   limits = [
-    "-l per_page=#{@per_page} -l pages=#{@pages}",
-    "-l posts=#{@posts}"
+    "-l per_page=#{per_page} -l pages=#{pages}",
+    "-l posts=#{@posts_count}"
   ]
   filenames = pattern == "default pattern" ? "" : "-f #{pattern}"
-  @cmd = "ruby danbooru.rb #{limits.sample} #{filenames} -b #{@board} #{@tag}"
+
+  @cmd = "ruby danbooru.rb #{limits.sample} #{filenames} -b #{board} #{@tag}"
 end
 
 When(/^I run script to download images using (.*)$/) do |saver|
@@ -27,21 +25,23 @@ When(/^I run script to download images using (.*)$/) do |saver|
   output = `#{@cmd}`
 
   missed_count = output.split("\n").grep("File url is unknown.").size
-  @images_count = @posts - missed_count
+  @images_count = @posts_count - missed_count
 end
 
 Then(/^I should see downloaded images$/) do
-  @files = list_files(@tag)
-  @images = @files - ["files.bbs"]
+  fm = FileMagic.new
+  files = list_files(@tag)
+  @images = files - ["files.bbs"]
 
   expect(@images.size).to eq @images_count
   @images.each do |image|
-    expect(@fm.file(File.join(@tag, image))).to match /image|Macromedia Flash/
+    expect(fm.file(File.join(@tag, image))).to match /image|Macromedia Flash/
   end
 end
 
 Then(/^I should see images and tags in bbs file$/) do
-  bbs = File.open(@bbs_file).read
+  bbs_file = File.join(@tag, "files.bbs")
+  bbs = File.open(bbs_file).read
 
   expect(bbs.split("\n").size).to eq @images_count
   @images.each do |image|
