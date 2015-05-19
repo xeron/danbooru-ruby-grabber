@@ -20,12 +20,11 @@ class Booru
     else
       pool_data = pool(id)
     end
-    puts pool_data["name"]
-    name = sanitize_filename(pool_data["name"])
-    puts "Pool name: #{name}."
-    FileUtils.mkdir_p name
+    puts "Pool name: #{pool_data["name"]}."
+    pool_dir = sanitize_filename(pool_data["name"])
+    FileUtils.mkdir_p pool_dir
 
-    bbs_path = File.join(options[:storage] || name, "files.bbs")
+    bbs_path = File.join(options[:storage] || pool_dir, "files.bbs")
     bbs = File.new(bbs_path, "a+")
     old_bbs = bbs.read
 
@@ -39,14 +38,14 @@ class Booru
         1.upto(pages) do |page|
           puts "Page #{page}/#{pages}:"
           pool(id, page)["posts"].each do |post_data|
-            download_post(post_data, name, num, count, bbs, old_bbs)
+            download_post(post_data, pool_dir, num, count, bbs, old_bbs)
             num += 1
           end
         end
       else
         pool_data["post_ids"].split.each do |post_id|
           post_data = post(post_id)
-          download_post(post_data, name, num, count, bbs, old_bbs)
+          download_post(post_data, pool_dir, num, count, bbs, old_bbs)
           num += 1
         end
       end
