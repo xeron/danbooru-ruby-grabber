@@ -20,7 +20,8 @@ class Booru
     else
       pool_data = pool(id)
     end
-    name = pool_data["name"]
+    puts pool_data["name"]
+    name = sanitize_filename(pool_data["name"])
     puts "Pool name: #{name}."
     FileUtils.mkdir_p name
 

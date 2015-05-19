@@ -117,4 +117,8 @@ class Booru
     end
   end
 
+  def sanitize_filename(filename)
+    filename.gsub(/[\?\*\/\\]/, "_")
+  end
+
 end

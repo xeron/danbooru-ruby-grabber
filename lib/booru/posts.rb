@@ -37,10 +37,11 @@ class Booru
 
   def download_by_tags(tags)
     tags = clean_tags(tags)
+    tags_dir = sanitize_filename(tags)
     puts "Tags are #{tags}."
-    FileUtils.mkdir_p tags
+    FileUtils.mkdir_p tags_dir
 
-    bbs_path = File.join(options[:storage] || tags, "files.bbs")
+    bbs_path = File.join(options[:storage] || tags_dir, "files.bbs")
     bbs = File.new(bbs_path, "a+")
     old_bbs = bbs.read
 
@@ -56,7 +57,7 @@ class Booru
       1.upto(pages) do |page|
         puts "Page #{page}/#{pages}:"
         posts_by_tags(tags, page, options[:limits][:per_page]).each do |post_data|
-          download_post(post_data, tags, num, count, bbs, old_bbs)
+          download_post(post_data, tags_dir, num, count, bbs, old_bbs)
           num += 1
         end
       end

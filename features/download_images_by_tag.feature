@@ -29,5 +29,3 @@ Feature: Download images by tag
     When I run script to download images using curl
     Then I should see downloaded images
     And I should see images and tags in bbs file
-
-# Feature: Download images by pool
