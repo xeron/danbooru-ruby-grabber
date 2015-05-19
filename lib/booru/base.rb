@@ -54,7 +54,6 @@ class Booru
       request.body = "data=#{data}" if data
     end
 
-    request.basic_auth(@user, @password)
     response = http.request(request)
 
     case response

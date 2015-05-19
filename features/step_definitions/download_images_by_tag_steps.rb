@@ -1,11 +1,8 @@
 Given(/^I want to download images from (\S+) and save them using (.*)$/) do |board, pattern|
-  per_page = 3
-  pages = 2
-  @posts_count = per_page * pages
   @tag = TAGS
   limits = [
-    "-l per_page=#{per_page} -l pages=#{pages}",
-    "-l posts=#{@posts_count}"
+    "-l per_page=#{PER_PAGE} -l pages=#{PAGES}",
+    "-l posts=#{POSTS_COUNT}"
   ]
   filenames = pattern == "default pattern" ? "" : "-f #{pattern}"
 

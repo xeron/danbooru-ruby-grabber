@@ -11,6 +11,9 @@ POOLS_MATRIX = {
   "behoimi" => {"id" => 13, "name" => "Rumpalicious!"},
   "yandere" => {"id" => 1184, "name" => "E☆2 Etsu Magazine vol. 22 2009-12"}
 }
+PER_PAGE = 3
+PAGES = 2
+POSTS_COUNT = PER_PAGE * PAGES
 
 # Clean all files before and after each scenario
 Before do
