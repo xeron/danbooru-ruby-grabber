@@ -13,7 +13,7 @@ require 'digest/md5'
 class Booru
 
   API_BASE_URL = "http://example.com"
-  PASSWORD_SALT = "choujin-steiner"
+  PASSWORD_SALT = nil
   OLD_API = false
   USER_AGENT = "Mozilla/5.0"
 
