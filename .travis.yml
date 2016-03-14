@@ -4,12 +4,10 @@ before_install:
 language: ruby
 bundler_args: --without development
 script: "bundle exec rake spec:ci"
-env:
-  global:
-    - "JRUBY_OPTS=-Xcext.enabled=true"
 rvm:
-  - 2.2.2
-  - 2.1.6
+  - 2.3.0
+  - 2.2.4
+  - 2.1.8
   - 2.0.0
   - 1.9.3
   - rbx
