@@ -17,6 +17,7 @@ Storage options:
     `-f tags` could miss some files due to filesystems' filename length limitation.
     -s, --storage DIR                Storage mode (all images in one dir and symlinks in tagged dirs)
     -f, --filename PATTERN           Filename pattern. Supported options: id (default), md5, tags, url (old default)
+    -d, --directory BASE_DIR         Base directory to save images. By default it uses the same location as script
 
 Authentication:
     This is optional, but recommended since some boards block access without authentication.
@@ -62,6 +63,6 @@ Note: may be you need to use `sudo`.
 
 Have fun.
 
-Author: Xeron  
-E-mail: xeron.oskom@gmail.com  
+Author: Xeron
+E-mail: xeron.oskom@gmail.com
 Homepage: http://blog.xeron.me

@@ -39,6 +39,9 @@ optparse = OptionParser.new do |opts|
   opts.on('-f', '--filename PATTERN', 'Filename pattern. Supported options: id (default), md5, tags, url (old default)') do |filename|
     options[:filename] = filename.to_sym
   end
+  opts.on('-d', '--directory BASE_DIR', 'Base directory to save images. By default it uses the same location as script') do |base_path|
+    options[:base_path] = base_path
+  end
 
   opts.separator("\nAuthentication:")
   opts.separator("    This is optional, but recommended since some boards block access without authentication.")

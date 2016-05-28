@@ -21,6 +21,10 @@ class Booru
 
   def initialize(opts)
     self.options = opts
+    if options[:base_path]
+      FileUtils.mkdir_p options[:base_path]
+      Dir.chdir options[:base_path] if options[:base_path]
+    end
     FileUtils.mkdir_p options[:storage] if options[:storage]
     @referer = self.class::API_BASE_URL
     options[:limits][:per_page] ||= 100
