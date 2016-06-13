@@ -73,7 +73,7 @@ class Booru
     if post_data["file_url"]
       url = get_url(post_data["file_url"])
     else
-      puts "File url is unknown."
+      puts "File url is unknown for #{post_data["id"]}."
       return nil
     end
     filename = get_filename(post_data, url)

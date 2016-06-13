@@ -11,6 +11,13 @@ POOLS_MATRIX = {
   "behoimi" => {"id" => 13, "name" => "Rumpalicious!"},
   "yandere" => {"id" => 1184, "name" => "E☆2 Etsu Magazine vol. 22 2009-12"}
 }
+SPECIAL_MATRIX = {
+  "danbooru" => "user:randeel",
+  "konachan" => "vote:3:opai",
+  "e621" => "user:slyroon",
+  "behoimi" => "user:darkgray",
+  "yandere" => "date:2016-05-14"
+}
 PER_PAGE = 3
 PAGES = 2
 POSTS_COUNT = PER_PAGE * PAGES
@@ -26,7 +33,7 @@ end
 
 def clean_files
   pools_dirs = POOLS_MATRIX.map { |k,v| v["name"] }
-  ([TAGS] + pools_dirs).each do |dir|
+  ([TAGS] + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
     actual_dir = sanitize_filename(dir)
     FileUtils.rm_r(actual_dir) if Dir.exists?(actual_dir)
   end
@@ -39,5 +46,5 @@ def list_files(dir, pattern = "*")
 end
 
 def sanitize_filename(filename)
-  filename.gsub(/[\?\*\/\\]/, "_").gsub(" ", "_")
+  filename.gsub(/[\?\*\/\\\:]/, "_").gsub(" ", "_")
 end
