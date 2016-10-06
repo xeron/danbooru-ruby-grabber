@@ -7,9 +7,7 @@ script: "bundle exec rake spec:ci"
 rvm:
   - 2.3.1
   - 2.2.5
-  - 2.1.9
-  - 2.0.0
-  - 1.9.3
+  - 2.1.10
   - rbx
 gemfile:
   - Gemfile
