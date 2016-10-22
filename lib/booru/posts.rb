@@ -72,12 +72,13 @@ class Booru
     # Prepare post data
     if post_data["file_url"]
       url = get_url(post_data["file_url"])
+      md5 = post_data["md5"]
     else
-      puts "File url is unknown for #{post_data["id"]}."
-      return nil
+      print "File url is unknown for #{post_data["id"]}. Trying HTML... "
+      url, md5 = get_data_from_html(post_data["id"])
+      return nil if url.nil?
     end
-    filename = get_filename(post_data, url)
-    md5 = post_data["md5"]
+    filename = get_filename(post_data, md5, url)
     tag_string = self.class::OLD_API ? post_data["tags"] : post_data["tag_string"]
 
     path = if options[:storage]
@@ -104,13 +105,28 @@ class Booru
     end
   end
 
-  def get_filename(post_data, url)
+  def get_data_from_html(id)
+    begin
+      html_data = open(self.class::API_BASE_URL + "/posts/#{id}")
+      nokogiri_data = Nokogiri::HTML(html_data)
+      file_url = nokogiri_data.css("section #image-container").first["data-file-url"]
+      md5 = nokogiri_data.css("section #image-container").first["data-md5"]
+      result = [get_url(file_url), md5]
+      puts "success!"
+    rescue
+      puts "fail. Giving up."
+      result = [nil, nil]
+    end
+    return result
+  end
+
+  def get_filename(post_data, md5, url)
     real_filename = CGI.unescape(File.basename(URI.parse(url).path))
     ext = File.extname(real_filename)
 
     case options[:filename]
     when :md5
-      post_data["md5"] + ext
+      md5 + ext
     when :tags
       tags_key = self.class::OLD_API ? "tags" : "tag_string"
       post_data[tags_key] + ext
