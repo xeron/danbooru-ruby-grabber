@@ -78,7 +78,7 @@ class Booru
       url, md5 = get_data_from_html(post_data["id"])
       return nil if url.nil?
     end
-    filename = get_filename(post_data, url)
+    filename = get_filename(post_data, md5, url)
     tag_string = self.class::OLD_API ? post_data["tags"] : post_data["tag_string"]
 
     path = if options[:storage]
@@ -120,13 +120,13 @@ class Booru
     return result
   end
 
-  def get_filename(post_data, url)
+  def get_filename(post_data, md5, url)
     real_filename = CGI.unescape(File.basename(URI.parse(url).path))
     ext = File.extname(real_filename)
 
     case options[:filename]
     when :md5
-      post_data["md5"] + ext
+      md5 + ext
     when :tags
       tags_key = self.class::OLD_API ? "tags" : "tag_string"
       post_data[tags_key] + ext
