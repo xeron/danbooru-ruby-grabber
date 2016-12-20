@@ -98,8 +98,10 @@ class Booru
   end
 
   def get_url(file_url)
-    if file_url =~ /^#{URI::regexp}$/
+    if file_url =~ URI::regexp
       file_url
+    elsif file_url.start_with?(self.class::API_BASE_URL.gsub("http:", ""))
+      "http:" + file_url
     else
       self.class::API_BASE_URL + file_url
     end
