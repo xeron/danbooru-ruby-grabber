@@ -2,13 +2,16 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libmagic-dev curl wget
 language: ruby
+cache: bundler
 bundler_args: --without development
-script: "bundle exec rake spec:ci"
+script:
+  - bundle exec rake spec:ci
+  - bundle exec rake rubocop
 rvm:
   - 2.3.3
   - 2.2.6
   - 2.1.10
-  - rbx-3.69
+  - rbx-3
 gemfile:
   - Gemfile
 notifications:
@@ -17,4 +20,4 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rbx-3.69
+    - rvm: rbx-3

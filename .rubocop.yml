@@ -1,0 +1,11 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'bundle/**/*'
+    - 'images/**/*'
+    - 'features/**/*'
+  TargetRubyVersion: 2.1
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
