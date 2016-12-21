@@ -9,7 +9,9 @@ end
 
 namespace :spec do
   desc "Clean up rbx compiled files and run cucumber tests"
-  Cucumber::Rake::Task.new(:ci) { |t| Dir.glob("**/*.rbc").each { |f| FileUtils.rm_f(f) } }
+  Cucumber::Rake::Task.new(:ci) do
+    Dir.glob("**/*.rbc").each { |f| FileUtils.rm_f(f) }
+  end
 end
 
 RuboCop::RakeTask.new

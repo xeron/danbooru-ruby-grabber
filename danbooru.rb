@@ -19,10 +19,16 @@ optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: danbooru.rb [options] "tags"'
 
   opts.separator("\nTarget:")
-  opts.on('-b', '--board BOARDNAME', 'Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere') do |board|
+  opts.on(
+    '-b', '--board BOARDNAME',
+    'Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere'
+  ) do |board|
     options[:board] = board.to_sym
   end
-  opts.on('-P', '--pool POOL_ID', 'Pool ID (tags will be ignored)') do |pool|
+  opts.on(
+    '-P', '--pool POOL_ID',
+    'Pool ID (tags will be ignored)'
+  ) do |pool|
     if pool =~ /^[1-9][0-9]*/
       options[:pool] = pool.to_i
     else
@@ -33,13 +39,22 @@ optparse = OptionParser.new do |opts|
 
   opts.separator("\nStorage options:")
   opts.separator("    `-f tags` could miss some files due to filesystems' filename length limitation.")
-  opts.on('-s', '--storage DIR', 'Storage mode (all images in one dir and symlinks in tagged dirs)') do |dir|
+  opts.on(
+    '-s', '--storage DIR',
+    'Storage mode (all images in one dir and symlinks in tagged dirs)'
+  ) do |dir|
     options[:storage] = dir
   end
-  opts.on('-f', '--filename PATTERN', 'Filename pattern. Supported options: id (default), md5, tags, url (old default)') do |filename|
+  opts.on(
+    '-f', '--filename PATTERN',
+    'Filename pattern. Supported options: id (default), md5, tags, url (old default)'
+  ) do |filename|
     options[:filename] = filename.to_sym
   end
-  opts.on('-d', '--directory BASE_DIR', 'Base directory to save images. By default it uses the same location as script') do |base_path|
+  opts.on(
+    '-d', '--directory BASE_DIR',
+    'Base directory to save images. By default it uses the same location as script'
+  ) do |base_path|
     options[:base_path] = base_path
   end
 
@@ -53,7 +68,10 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nTools:")
-  opts.separator("    Ruby's file saver is used by default. You can change it using this options. `wget` or `curl` binaries should be available.")
+  opts.separator(
+    "    Ruby's file saver is used by default. You can change it using this options." \
+    " `wget` or `curl` binaries should be available."
+  )
   opts.on('-w', '--wget', 'Download using wget') do
     options[:downloader] = :wget
   end
@@ -63,11 +81,15 @@ optparse = OptionParser.new do |opts|
 
   opts.separator("\nLimits:")
   opts.separator("    This option could be used multiple times with different limiters.")
-  opts.on('-l', '--limit LIMITER', 'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page') do |limiter|
+  opts.on(
+    '-l', '--limit LIMITER',
+    'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page'
+  ) do |limiter|
     if limiter =~ /(pages|posts|per_page)=([1-9][0-9]*)/
       options[:limits][$1.to_sym] = $2.to_i
     else
-      $stderr.puts "Wrong limiter: #{limiter}. It should be pages, posts or per_page and value should be a number greater than 0."
+      $stderr.puts \
+        "Wrong limiter: #{limiter}. It should be pages, posts or per_page and value should be a number greater than 0."
       exit 1
     end
   end
@@ -88,18 +110,20 @@ end
 if !options[:pool] && (ARGV.length == 0 || ARGV[0].empty?)
   puts optparse.help
 else
-  board = case options[:board]
-  when :konachan
-    Konachan.new(options)
-  when :e621
-    E621.new(options)
-  when :behoimi
-    Behoimi.new(options)
-  when :yandere
-    Yandere.new(options)
-  else
-    Danbooru.new(options)
-  end
+  board =
+    case options[:board]
+    when :konachan
+      Konachan.new(options)
+    when :e621
+      E621.new(options)
+    when :behoimi
+      Behoimi.new(options)
+    when :yandere
+      Yandere.new(options)
+    else
+      Danbooru.new(options)
+    end
+
   if options[:pool]
     board.download_by_pool(options[:pool])
   else

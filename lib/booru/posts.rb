@@ -80,11 +80,12 @@ class Booru
     filename = get_filename(post_data, md5, url)
     tag_string = self.class::OLD_API ? post_data["tags"] : post_data["tag_string"]
 
-    path = if options[:storage]
-      File.join(options[:storage], filename)
-    else
-      File.join(target, filename)
-    end
+    path =
+      if options[:storage]
+        File.join(options[:storage], filename)
+      else
+        File.join(target, filename)
+      end
     if File.exist?(path) && md5 == Digest::MD5.hexdigest(File.read(path))
       puts "File exists - #{path} (#{num}/#{count})"
     else
@@ -155,7 +156,7 @@ class Booru
   end
 
   def clean_tags(tags)
-    tags.gsub(" ", "+")
+    tags.tr(" ", "+")
   end
 
 end

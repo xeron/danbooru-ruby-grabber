@@ -9,3 +9,6 @@ AllCops:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/LineLength:
+  Max: 120
