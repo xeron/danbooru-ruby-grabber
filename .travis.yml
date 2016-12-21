@@ -8,7 +8,7 @@ rvm:
   - 2.3.3
   - 2.2.6
   - 2.1.10
-  - rbx-2
+  - rbx
 gemfile:
   - Gemfile
 notifications:
@@ -17,4 +17,4 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rbx-2
+    - rvm: rbx
