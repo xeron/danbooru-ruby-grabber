@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   Exclude:
     - 'bundle/**/*'
+    - 'vendor/bundle/**/*'
     - 'images/**/*'
     - 'features/**/*'
   TargetRubyVersion: 2.1
