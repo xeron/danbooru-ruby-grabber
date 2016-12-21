@@ -8,7 +8,7 @@ When(/^I run script to download images using (.*)$/) do |saver|
 
   output = `#{@cmd}`
 
-  missed_count = output.split("\n").grep(/File url is unknown for .*/).size
+  missed_count = output.split("\n").grep(/File url is unknown for .* fail/).size
   @images_count = POSTS_COUNT - missed_count
 end
 

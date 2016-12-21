@@ -74,7 +74,6 @@ class Booru
       url = get_url(post_data["file_url"])
       md5 = post_data["md5"]
     else
-      print "File url is unknown for #{post_data["id"]}. Trying HTML... "
       url, md5 = get_data_from_html(post_data["id"])
       return nil if url.nil?
     end
@@ -108,6 +107,7 @@ class Booru
   end
 
   def get_data_from_html(id)
+    print "File url is unknown for #{id}. Trying HTML... "
     begin
       html_data = open(self.class::API_BASE_URL + "/posts/#{id}")
       nokogiri_data = Nokogiri::HTML(html_data)
