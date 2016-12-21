@@ -4,9 +4,9 @@ gem "json"
 gem "nokogiri"
 
 group :development, :test do
+  gem "cucumber"
   gem "rake"
   gem "rspec"
-  gem "cucumber"
-  gem "ruby-filemagic", :require => "filemagic"
   gem "rubocop"
+  gem "ruby-filemagic", :require => "filemagic"
 end
