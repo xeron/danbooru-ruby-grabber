@@ -3,7 +3,13 @@
 require 'fileutils'
 require 'filemagic'
 
-TAGS = "touhou"
+TAGS_MATRIX = {
+  "danbooru" => "touhou",
+  "konachan" => "robotics;notes",
+  "e621" => "touhou",
+  "behoimi" => "touhou",
+  "yandere" => "touhou"
+}
 POOLS_MATRIX = {
   "danbooru" => {"id" => 364, "name" => "Nanoha/Fate doujin"},
   "konachan" => {"id" => 4, "name" => "Clannad Wallpapers (Zoomlayer + Logo + Name)"},
@@ -33,7 +39,7 @@ end
 
 def clean_files
   pools_dirs = POOLS_MATRIX.map { |k,v| v["name"] }
-  ([TAGS] + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
+  (TAGS_MATRIX.values + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
     actual_dir = sanitize_filename(dir)
     FileUtils.rm_r(actual_dir) if Dir.exists?(actual_dir)
   end
