@@ -37,8 +37,16 @@ class Booru
       :login => options[:user],
       :password_hash => get_password_hash(options[:password], self.class::PASSWORD_SALT)
     })
-    full_url = url_prepared ? url : url + "?" + full_params.map { |key, val| "#{key}=#{val}" }.join("&")
-    uri = URI.join(self.class::API_BASE_URL, URI.escape(full_url))
+    full_url =
+      if url_prepared
+        url
+      else
+        [
+          url,
+          full_params.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join("&")
+        ].join("?")
+      end
+    uri = URI.join(self.class::API_BASE_URL, full_url)
     http_params = {
       "User-Agent" => USER_AGENT,
       "Referer" => @referer

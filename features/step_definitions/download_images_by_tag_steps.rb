@@ -1,5 +1,5 @@
 Given(/^I want to download images from (\S+) and save them using (.*)$/) do |board, pattern|
-  @tag = TAGS
+  @tag = TAGS_MATRIX[board]
   limits = [
     "-l per_page=#{PER_PAGE} -l pages=#{PAGES}",
     "-l posts=#{POSTS_COUNT}"
