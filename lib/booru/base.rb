@@ -41,10 +41,7 @@ class Booru
       if url_prepared
         url
       else
-        [
-          url,
-          full_params.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join("&")
-        ].join("?")
+        prepare_url(url, full_params)
       end
     uri = URI.join(self.class::API_BASE_URL, full_url)
     http_params = {
@@ -79,6 +76,13 @@ class Booru
       end
     else return response.value
     end
+  end
+
+  def prepare_url(url, full_params)
+    [
+      url,
+      full_params.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join("&")
+    ].join("?").gsub("%2B", "+")
   end
 
   def get_password_hash(password, salt)
