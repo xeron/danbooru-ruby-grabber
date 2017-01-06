@@ -1,6 +1,6 @@
 Given(/^I want to download images from (\S+) pool and save them using (.*)$/) do |board, pattern|
   id = POOLS_MATRIX[board]["id"]
-  @tag = POOLS_MATRIX[board]["name"]
+  @tags = POOLS_MATRIX[board]["name"]
 
   filenames = pattern == "default pattern" ? "" : "-f #{pattern}"
 

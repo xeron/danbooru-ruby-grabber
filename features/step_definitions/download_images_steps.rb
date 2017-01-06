@@ -14,7 +14,7 @@ end
 
 Then(/^I should see downloaded images$/) do
   fm = FileMagic.new
-  @dir = sanitize_filename(@tag)
+  @dir = sanitize_filename(@tags)
   files = list_files(@dir)
   @images = files - ["files.bbs"]
 

@@ -4,7 +4,7 @@ require 'fileutils'
 require 'filemagic'
 
 TAGS_MATRIX = {
-  "danbooru" => "touhou",
+  "danbooru" => "touhou konpaku_youmu",
   "konachan" => "robotics;notes",
   "e621" => "touhou",
   "behoimi" => "touhou",
@@ -52,5 +52,5 @@ def list_files(dir, pattern = "*")
 end
 
 def sanitize_filename(filename)
-  filename.gsub(/[\?\*\/\\\:]/, "_").gsub(" ", "_")
+  filename.gsub(/[\?\*\/\\\:]/, "_").gsub(" ", "+")
 end
