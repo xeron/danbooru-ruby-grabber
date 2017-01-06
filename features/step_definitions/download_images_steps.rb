@@ -12,9 +12,9 @@ When(/^I run script to download images using (.*)$/) do |saver|
   @images_count = POSTS_COUNT - missed_count
 end
 
-Then(/^I should see downloaded images$/) do
+Then(/^I should see downloaded images by (.*)$/) do |source|
   fm = FileMagic.new
-  @dir = sanitize_filename(@tags)
+  @dir = sanitize_filename(@tags, source == "pool")
   files = list_files(@dir)
   @images = files - ["files.bbs"]
 

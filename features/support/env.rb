@@ -40,8 +40,10 @@ end
 def clean_files
   pools_dirs = POOLS_MATRIX.map { |k,v| v["name"] }
   (TAGS_MATRIX.values + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
-    actual_dir = sanitize_filename(dir)
-    FileUtils.rm_r(actual_dir) if Dir.exists?(actual_dir)
+    actual_dir1 = sanitize_filename(dir, false)
+    actual_dir2 = sanitize_filename(dir, true)
+    FileUtils.rm_r(actual_dir1) if Dir.exists?(actual_dir1)
+    FileUtils.rm_r(actual_dir2) if Dir.exists?(actual_dir2)
   end
 end
 
@@ -51,6 +53,8 @@ def list_files(dir, pattern = "*")
   end
 end
 
-def sanitize_filename(filename)
-  filename.gsub(/[\?\*\/\\\:]/, "_").gsub(" ", "+")
+def sanitize_filename(filename, pool = false)
+  result = filename.gsub(/[\?\*\/\\\:]/, "_")
+  space_sub = pool ? "_" : "+"
+  result.gsub(" ", space_sub)
 end
