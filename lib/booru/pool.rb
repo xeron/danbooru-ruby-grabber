@@ -16,7 +16,7 @@ class Booru
   def download_by_pool(id)
     if self.class::OLD_API
       data = pool(id)
-      pool_data = data["pool"] || data.select { |k| k != "posts" }
+      pool_data = data["pool"] || data.reject { |k| k == "posts" }
     else
       pool_data = pool(id)
     end
