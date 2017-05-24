@@ -8,5 +8,5 @@ group :development, :test do
   gem "rake"
   gem "rspec"
   gem "rubocop"
-  gem "ruby-filemagic", :require => "filemagic"
+  gem "ruby-filemagic", require: "filemagic"
 end

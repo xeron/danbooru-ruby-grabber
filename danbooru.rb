@@ -95,7 +95,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nHelp:")
-  opts.on( '-h', '--help', 'Print a help message' ) do
+  opts.on('-h', '--help', 'Print a help message') do
     puts opts
     exit
   end

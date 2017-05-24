@@ -1,5 +1,4 @@
 class Booru
-
   # Get pool by id
   # http://danbooru.donmai.us/pools/1.json
   # https://yande.re/pool/show.json?id=1&page=1
@@ -7,7 +6,7 @@ class Booru
   # Hash:: Pool data
   def pool(id, page = 1)
     if self.class::OLD_API
-      do_request("pool/show.json", {:id => id, :page => page})
+      do_request("pool/show.json", id: id, page: page)
     else
       do_request("pools/#{id}.json")
     end
@@ -34,7 +33,7 @@ class Booru
     else
       num = 1
       if self.class::OLD_API
-        pages = (count.to_f/data["posts"].count).ceil
+        pages = (count.to_f / data["posts"].count).ceil
         1.upto(pages) do |page|
           puts "Page #{page}/#{pages}:"
           pool(id, page)["posts"].each do |post_data|
@@ -51,5 +50,4 @@ class Booru
       end
     end
   end
-
 end

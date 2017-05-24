@@ -67,33 +67,11 @@ Style/Documentation:
     - 'lib/booru/posts.rb'
     - 'lib/e621.rb'
 
-# Offense count: 16
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Style/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'lib/behoimi.rb'
-    - 'lib/booru/base.rb'
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-    - 'lib/danbooru.rb'
-    - 'lib/e621.rb'
-    - 'lib/konachan.rb'
-    - 'lib/yandere.rb'
-
 # Offense count: 3
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
   Exclude:
     - 'lib/booru/base.rb'
-
-# Offense count: 17
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -101,13 +79,6 @@ Style/HashSyntax:
 Style/IfUnlessModifier:
   Exclude:
     - 'lib/booru/base.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_braces
-Style/IndentHash:
-  EnforcedStyle: consistent
 
 # Offense count: 12
 # Cop supports --auto-correct.
@@ -151,31 +122,6 @@ Style/RedundantReturn:
 Style/RegexpLiteral:
   Exclude:
     - 'lib/booru/base.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Style/SpaceAroundOperators:
-  Exclude:
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-
-# Offense count: 12
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SupportedStyles.
-# SupportedStyles: space, no_space, compact
-Style/SpaceInsideHashLiteralBraces:
-  Exclude:
-    - 'lib/behoimi.rb'
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-    - 'lib/e621.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/SpaceInsideParens:
-  Exclude:
-    - 'danbooru.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
