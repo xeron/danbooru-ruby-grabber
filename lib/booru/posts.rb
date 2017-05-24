@@ -1,5 +1,4 @@
 class Booru
-
   # Get post by id
   # Only new API
   # http://danbooru.donmai.us/posts/$id.json
@@ -18,7 +17,7 @@ class Booru
   def posts_by_tags(tags, page = 1, limit = options[:limits][:per_page])
     tags = clean_tags(tags)
     posts_url = self.class::OLD_API ? "post.json" : "posts.json"
-    do_request(posts_url, {:tags => tags, :page => page, :limit => limit})
+    do_request(posts_url, tags: tags, page: page, limit: limit)
   end
 
   # Get posts count by tag
@@ -29,9 +28,9 @@ class Booru
   def posts_count_by_tag(tags)
     tags = clean_tags(tags)
     if self.class::OLD_API
-      do_request("post/index.xml", {:tags => tags, :limit => 1}, :get, nil, :xml).root["count"]
+      do_request("post/index.xml", { tags: tags, limit: 1 }, :get, nil, :xml).root["count"]
     else
-      do_request("counts/posts.json", {:tags => tags})["counts"]["posts"]
+      do_request("counts/posts.json", tags: tags)["counts"]["posts"]
     end
   end
 
@@ -49,7 +48,7 @@ class Booru
     if count == 0
       puts "No posts, nothing to do."
     else
-      pages = (count.to_f/options[:limits][:per_page]).ceil
+      pages = (count.to_f / options[:limits][:per_page]).ceil
       if options[:limits][:pages] && options[:limits][:pages] < pages
         pages = options[:limits][:pages]
       end
@@ -158,5 +157,4 @@ class Booru
   def clean_tags(tags)
     tags.tr(" ", "+")
   end
-
 end

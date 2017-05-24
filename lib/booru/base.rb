@@ -11,7 +11,6 @@ require 'digest/sha1'
 require 'digest/md5'
 
 class Booru
-
   API_BASE_URL = "http://example.com"
   PASSWORD_SALT = nil
   OLD_API = false
@@ -33,10 +32,10 @@ class Booru
   private
 
   def do_request(url, params = {}, method = :get, data = nil, format = :json, url_prepared = false, limit = 10)
-    full_params = params.merge({
-      :login => options[:user],
-      :password_hash => get_password_hash(options[:password], self.class::PASSWORD_SALT)
-    })
+    full_params = params.merge(
+      login: options[:user],
+      password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
+    )
     full_url =
       if url_prepared
         url
@@ -135,5 +134,4 @@ class Booru
   def sanitize_filename(filename)
     filename.gsub(/[\?\*\/\\\:]/, "_")
   end
-
 end
