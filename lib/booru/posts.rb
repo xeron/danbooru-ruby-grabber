@@ -28,7 +28,7 @@ class Booru
   def posts_count_by_tag(tags)
     tags = clean_tags(tags)
     if self.class::OLD_API
-      do_request("post/index.xml", { tags: tags, limit: 1 }, :get, nil, :xml).root["count"]
+      do_request("post/index.xml", { tags: tags, limit: 1 }, :get, nil, :xml).root["count"].to_i
     else
       do_request("counts/posts.json", tags: tags)["counts"]["posts"]
     end
@@ -45,7 +45,7 @@ class Booru
     old_bbs = bbs.read
 
     count = posts_count_by_tag(tags)
-    if count == 0
+    if count.zero?
       puts "No posts, nothing to do."
     else
       pages = (count.to_f / options[:limits][:per_page]).ceil
@@ -97,7 +97,7 @@ class Booru
   end
 
   def get_url(file_url)
-    if file_url =~ URI::regexp
+    if file_url =~ URI.regexp
       file_url
     elsif file_url.start_with?(self.class::API_BASE_URL.gsub("http:", ""))
       "http:" + file_url
@@ -119,7 +119,7 @@ class Booru
       puts "fail. Giving up."
       result = [nil, nil]
     end
-    return result
+    result
   end
 
   def get_filename(post_data, md5, url)
