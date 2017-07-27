@@ -38,24 +38,6 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 14
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'lib/behoimi.rb'
-    - 'lib/booru/base.rb'
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-    - 'lib/e621.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ColonMethodCall:
-  Exclude:
-    - 'lib/booru/posts.rb'
-
 # Offense count: 5
 Style/Documentation:
   Exclude:
@@ -66,19 +48,6 @@ Style/Documentation:
     - 'lib/booru/pool.rb'
     - 'lib/booru/posts.rb'
     - 'lib/e621.rb'
-
-# Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'lib/booru/base.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/booru/base.rb'
 
 # Offense count: 12
 # Cop supports --auto-correct.
@@ -91,30 +60,6 @@ Style/MutableConstant:
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, SupportedStyles.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'danbooru.rb'
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Exclude:
-    - 'danbooru.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'lib/booru/posts.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
@@ -122,13 +67,6 @@ Style/RedundantReturn:
 Style/RegexpLiteral:
   Exclude:
     - 'lib/booru/base.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles.
-# SupportedStyles: use_perl_names, use_english_names
-Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
 
 # Offense count: 94
 # Cop supports --auto-correct.
@@ -148,17 +86,3 @@ Style/StringLiterals:
     - 'lib/e621.rb'
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'lib/booru/pool.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'danbooru.rb'

@@ -5,7 +5,7 @@
 # Homepage: http://blog.xeron.me
 # Version: 2.6
 
-$:.unshift File.join(File.dirname(__FILE__), 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
 require 'danbooru'
 require 'konachan'
@@ -86,7 +86,7 @@ optparse = OptionParser.new do |opts|
     'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page'
   ) do |limiter|
     if limiter =~ /(pages|posts|per_page)=([1-9][0-9]*)/
-      options[:limits][$1.to_sym] = $2.to_i
+      options[:limits][Regexp.last_match[1].to_sym] = Regexp.last_match[2].to_i
     else
       $stderr.puts \
         "Wrong limiter: #{limiter}. It should be pages, posts or per_page and value should be a number greater than 0."
@@ -107,7 +107,7 @@ rescue => ex
   puts ex
 end
 
-if !options[:pool] && (ARGV.length == 0 || ARGV[0].empty?)
+if !options[:pool] && (ARGV.length.zero? || ARGV[0].empty?)
   puts optparse.help
 else
   board =

@@ -19,7 +19,7 @@ class Booru
     else
       pool_data = pool(id)
     end
-    puts "Pool name: #{pool_data["name"]}."
+    puts "Pool name: #{pool_data['name']}."
     pool_dir = sanitize_filename(pool_data["name"])
     FileUtils.mkdir_p pool_dir
 
@@ -28,7 +28,7 @@ class Booru
     old_bbs = bbs.read
 
     count = pool_data["post_count"]
-    if count == 0
+    if count.zero?
       puts "No posts, nothing to do."
     else
       num = 1

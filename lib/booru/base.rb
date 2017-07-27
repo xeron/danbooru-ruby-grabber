@@ -14,7 +14,7 @@ class Booru
   API_BASE_URL = "http://example.com"
   PASSWORD_SALT = nil
   OLD_API = false
-  USER_AGENT = "Mozilla/5.0"
+  USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0"
 
   attr_accessor :options
 
@@ -67,7 +67,7 @@ class Booru
     case response
     when Net::HTTPSuccess then parse_response(response, format)
     when Net::HTTPRedirection
-      if limit > 0
+      if limit.positive?
         do_request(response["location"], params, method, data, format, true, limit - 1)
       else
         $stderr.puts "Too much redirects."
@@ -103,32 +103,26 @@ class Booru
       end
     when :xml
       response_body_hash = Nokogiri::XML(response.body)
-      if response_body_hash.root["success"] == "false"
-        response_ok = false
-      end
+      response_ok = false if response_body_hash.root["success"] == "false"
     else
       raise "Unknown format"
     end
 
-    if response_ok
-      return response_body_hash
-    else
-      raise response_body_hash
-    end
+    return response_body_hash if response_ok
+
+    raise response_body_hash
   end
 
   def only_new_api
-    if self.class::OLD_API
-      $stderr.puts "Supported only with a new API (danbooru.donmai.us)"
-      exit 1
-    end
+    return unless self.class::OLD_API
+    $stderr.puts "Supported only with a new API (danbooru.donmai.us)"
+    exit 1
   end
 
   def only_old_api
-    unless self.class::OLD_API
-      $stderr.puts "Supported only with an old API (not danbooru.donmai.us)"
-      exit 1
-    end
+    return if self.class::OLD_API
+    $stderr.puts "Supported only with an old API (not danbooru.donmai.us)"
+    exit 1
   end
 
   def sanitize_filename(filename)
