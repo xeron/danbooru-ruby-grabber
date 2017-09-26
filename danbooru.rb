@@ -1,9 +1,7 @@
-# coding: utf-8
-
 # Author: Ivan "Xeron" Larionov
 # E-mail: xeron.oskom@gmail.com
 # Homepage: http://blog.xeron.me
-# Version: 2.6
+# Version: 2.7
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
@@ -103,7 +101,7 @@ end
 
 begin
   optparse.parse!
-rescue => ex
+rescue StandardError => ex
   puts ex
 end
 

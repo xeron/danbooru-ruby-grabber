@@ -97,7 +97,7 @@ class Booru
   end
 
   def get_url(file_url)
-    if file_url =~ URI.regexp
+    if file_url =~ URI::DEFAULT_PARSER.make_regexp
       file_url
     elsif file_url.start_with?(self.class::API_BASE_URL.gsub("http:", ""))
       "http:" + file_url
@@ -115,7 +115,7 @@ class Booru
       md5 = nokogiri_data.css("section #image-container").first["data-md5"]
       result = [get_url(file_url), md5]
       puts "success!"
-    rescue
+    rescue StandardError
       puts "fail. Giving up."
       result = [nil, nil]
     end
