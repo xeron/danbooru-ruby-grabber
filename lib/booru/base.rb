@@ -70,7 +70,7 @@ class Booru
       if limit.positive?
         do_request(response["location"], params, method, data, format, true, limit - 1)
       else
-        $stderr.puts "Too much redirects."
+        warn "Too much redirects."
         exit 1
       end
     else return response.value
@@ -97,31 +97,29 @@ class Booru
 
     case format
     when :json
-      response_body_hash = JSON.parse(response.body)
-      if response_body_hash.include?("success") && response_body_hash["success"] == false
-        response_ok = false
-      end
+      response_hash = JSON.parse(response.body)
+      response_ok = false if response_hash.include?("success") && response_hash["success"] == false
     when :xml
-      response_body_hash = Nokogiri::XML(response.body)
-      response_ok = false if response_body_hash.root["success"] == "false"
+      response_hash = Nokogiri::XML(response.body)
+      response_ok = false if response_hash.root["success"] == "false"
     else
       raise "Unknown format"
     end
 
-    return response_body_hash if response_ok
+    return response_hash if response_ok
 
-    raise response_body_hash
+    raise response_hash
   end
 
   def only_new_api
     return unless self.class::OLD_API
-    $stderr.puts "Supported only with a new API (danbooru.donmai.us)"
+    warn "Supported only with a new API (danbooru.donmai.us)"
     exit 1
   end
 
   def only_old_api
     return if self.class::OLD_API
-    $stderr.puts "Supported only with an old API (not danbooru.donmai.us)"
+    warn "Supported only with an old API (not danbooru.donmai.us)"
     exit 1
   end
 

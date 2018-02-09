@@ -30,7 +30,7 @@ optparse = OptionParser.new do |opts|
     if pool =~ /^[1-9][0-9]*/
       options[:pool] = pool.to_i
     else
-      $stderr.puts "Wrong pool id: #{pool}. It should be a number greater than 0."
+      warn "Wrong pool id: #{pool}. It should be a number greater than 0."
       exit 1
     end
   end
@@ -86,7 +86,7 @@ optparse = OptionParser.new do |opts|
     if limiter =~ /(pages|posts|per_page)=([1-9][0-9]*)/
       options[:limits][Regexp.last_match[1].to_sym] = Regexp.last_match[2].to_i
     else
-      $stderr.puts \
+      warn \
         "Wrong limiter: #{limiter}. It should be pages, posts or per_page and value should be a number greater than 0."
       exit 1
     end

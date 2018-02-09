@@ -49,9 +49,7 @@ class Booru
       puts "No posts, nothing to do."
     else
       pages = (count.to_f / options[:limits][:per_page]).ceil
-      if options[:limits][:pages] && options[:limits][:pages] < pages
-        pages = options[:limits][:pages]
-      end
+      pages = options[:limits][:pages] if options[:limits][:pages] && options[:limits][:pages] < pages
       num = 1
       1.upto(pages) do |page|
         puts "Page #{page}/#{pages}:"
