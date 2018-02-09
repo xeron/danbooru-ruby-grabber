@@ -9,11 +9,11 @@ script:
   - bundle exec rake spec:ci
   - bundle exec rake rubocop
 rvm:
-  - 2.4.1
-  - 2.3.4
-  - 2.2.7
-  - 2.1.10
-  - rbx-3.83
+  - 2.5.0
+  - 2.4.3
+  - 2.3.6
+  - 2.2.9
+  - rubinius-3
 gemfile:
   - Gemfile
 notifications:
@@ -22,4 +22,4 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rbx-3.83
+    - rvm: rubinius-3
