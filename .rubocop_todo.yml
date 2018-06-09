@@ -86,3 +86,7 @@ Style/StringLiterals:
     - 'lib/e621.rb'
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'
+
+Security/Open:
+  Exclude:
+    - 'lib/booru/posts.rb'
