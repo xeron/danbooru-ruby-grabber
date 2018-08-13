@@ -57,7 +57,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nAuthentication:")
-  opts.separator("    This is optional, but recommended since some boards block access without authentication.")
+  opts.separator('    This is optional, but recommended since some boards block access without authentication.')
   opts.on('-u', '--user USERNAME', 'Username') do |user|
     options[:user] = user
   end
@@ -68,7 +68,7 @@ optparse = OptionParser.new do |opts|
   opts.separator("\nTools:")
   opts.separator(
     "    Ruby's file saver is used by default. You can change it using this options." \
-    " `wget` or `curl` binaries should be available."
+    ' `wget` or `curl` binaries should be available.'
   )
   opts.on('-w', '--wget', 'Download using wget') do
     options[:downloader] = :wget
@@ -78,7 +78,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.separator("\nLimits:")
-  opts.separator("    This option could be used multiple times with different limiters.")
+  opts.separator('    This option could be used multiple times with different limiters.')
   opts.on(
     '-l', '--limit LIMITER',
     'Limiters in the following format: limiter=number. Supported limiters: pages, posts, per_page'

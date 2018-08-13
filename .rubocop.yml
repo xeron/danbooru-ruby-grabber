@@ -6,7 +6,7 @@ AllCops:
     - 'vendor/bundle/**/*'
     - 'images/**/*'
     - 'features/**/*'
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 Style/FrozenStringLiteralComment:
   Enabled: false

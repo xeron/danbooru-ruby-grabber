@@ -68,25 +68,6 @@ Style/RegexpLiteral:
   Exclude:
     - 'lib/booru/base.rb'
 
-# Offense count: 94
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'Gemfile'
-    - 'Rakefile'
-    - 'danbooru.rb'
-    - 'lib/behoimi.rb'
-    - 'lib/booru.rb'
-    - 'lib/booru/base.rb'
-    - 'lib/booru/pool.rb'
-    - 'lib/booru/posts.rb'
-    - 'lib/danbooru.rb'
-    - 'lib/e621.rb'
-    - 'lib/konachan.rb'
-    - 'lib/yandere.rb'
-
 Security/Open:
   Exclude:
     - 'lib/booru/posts.rb'
