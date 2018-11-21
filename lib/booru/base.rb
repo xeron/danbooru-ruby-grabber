@@ -113,12 +113,14 @@ class Booru
 
   def only_new_api
     return unless self.class::OLD_API
+
     warn 'Supported only with a new API (danbooru.donmai.us)'
     exit 1
   end
 
   def only_old_api
     return if self.class::OLD_API
+
     warn 'Supported only with an old API (not danbooru.donmai.us)'
     exit 1
   end

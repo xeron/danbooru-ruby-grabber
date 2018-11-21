@@ -42,7 +42,7 @@ class Booru
           end
         end
       else
-        pool_data['post_ids'].split.each do |post_id|
+        pool_data['post_ids'].each do |post_id|
           post_data = post(post_id)
           download_post(post_data, pool_dir, num, count, bbs, old_bbs)
           num += 1
