@@ -101,8 +101,8 @@ end
 
 begin
   optparse.parse!
-rescue StandardError => ex
-  puts ex
+rescue StandardError => e
+  puts e
 end
 
 if !options[:pool] && (ARGV.length.zero? || ARGV[0].empty?)

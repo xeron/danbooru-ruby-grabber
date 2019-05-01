@@ -18,7 +18,7 @@ Metrics/BlockLength:
 # Offense count: 1
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 127
+  Max: 128
 
 # Offense count: 3
 Metrics/CyclomaticComplexity:
@@ -59,15 +59,3 @@ Style/MutableConstant:
     - 'lib/e621.rb'
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
-# SupportedStyles: slashes, percent_r, mixed
-Style/RegexpLiteral:
-  Exclude:
-    - 'lib/booru/base.rb'
-
-Security/Open:
-  Exclude:
-    - 'lib/booru/posts.rb'

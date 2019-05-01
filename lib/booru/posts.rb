@@ -107,7 +107,7 @@ class Booru
   def get_data_from_html(id)
     print "File url is unknown for #{id}. Trying HTML... "
     begin
-      html_data = open(self.class::API_BASE_URL + "/posts/#{id}")
+      html_data = URI.join(self.class::API_BASE_URL, '/posts/', id.to_s).open.read
       nokogiri_data = Nokogiri::HTML(html_data)
       file_url = nokogiri_data.css('section #image-container').first['data-file-url']
       md5 = nokogiri_data.css('section #image-container').first['data-md5']
@@ -144,7 +144,10 @@ class Booru
     when :curl
       `curl -L -A "#{USER_AGENT}" -e "#{@referer}" --progress-bar -o "#{path}" "#{url}"`
     else
-      open(path, 'wb').write(open(url, 'rb', 'User-Agent' => USER_AGENT, 'Referer' => @referer).read)
+      File.open(path, 'wb') do |f|
+        data = URI.parse(url).open('rb', 'User-Agent' => USER_AGENT, 'Referer' => @referer).read
+        f.write(data)
+      end
     end
   end
 
