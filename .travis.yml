@@ -14,7 +14,7 @@ rvm:
   - 2.5.5
   - 2.4.6
   - 2.3.8
-  - rubinius-3
+  - rubinius-4
 gemfile:
   - Gemfile
 notifications:
@@ -23,4 +23,4 @@ notifications:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rubinius-3
+    - rvm: rubinius-4
