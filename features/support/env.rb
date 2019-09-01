@@ -2,21 +2,21 @@ require 'fileutils'
 require 'filemagic'
 
 TAGS_MATRIX = {
-  'danbooru' => 'touhou konpaku_youmu',
+  'testbooru' => 'tagme absurdres',
   'konachan' => 'robotics;notes',
   'e621' => 'touhou',
   'behoimi' => 'touhou',
   'yandere' => 'touhou'
 }.freeze
 POOLS_MATRIX = {
-  'danbooru' => { 'id' => 364, 'name' => 'Nanoha/Fate doujin' },
+  'testbooru' => { 'id' => 1, 'name' => 'Pool 1' },
   'konachan' => { 'id' => 4, 'name' => 'Clannad Wallpapers (Zoomlayer + Logo + Name)' },
   'e621' => { 'id' => 5412, 'name' => 'MLP: Still Images & Complete Animation Loops' },
   'behoimi' => { 'id' => 13, 'name' => 'Rumpalicious!' },
   'yandere' => { 'id' => 1184, 'name' => 'E☆2 Etsu Magazine vol. 22 2009-12' }
 }.freeze
 SPECIAL_MATRIX = {
-  'danbooru' => 'user:randeel',
+  'testbooru' => 'user:randeel',
   'konachan' => 'vote:3:opai',
   'e621' => 'user:slyroon',
   'behoimi' => 'user:darkgray',

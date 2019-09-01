@@ -6,6 +6,7 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'booru'
 require 'danbooru'
+require 'testbooru'
 require 'konachan'
 require 'e621'
 require 'behoimi'
@@ -118,6 +119,8 @@ else
       Behoimi.new(options)
     when :yandere
       Yandere.new(options)
+    when :testbooru
+      Testbooru.new(options)
     else
       Danbooru.new(options)
     end

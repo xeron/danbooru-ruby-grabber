@@ -3,7 +3,7 @@ Feature: Download images by pool
 
   @danbooru
   Scenario: Download images from danbooru
-    Given I want to download images from danbooru pool and save them using default pattern
+    Given I want to download images from testbooru pool and save them using default pattern
     When I run script to download images using default saver
     Then I should see downloaded images by pool
     And I should see images in bbs file
