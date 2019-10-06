@@ -14,7 +14,7 @@ require 'yandere'
 
 options = {}
 options[:limits] = {}
-optparse = OptionParser.new do |opts|
+optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.banner = 'Usage: danbooru.rb [options] "tags"'
 
   opts.separator("\nTarget:")
@@ -28,7 +28,7 @@ optparse = OptionParser.new do |opts|
     '-P', '--pool POOL_ID',
     'Pool ID (tags will be ignored)'
   ) do |pool|
-    if pool =~ /^[1-9][0-9]*/
+    if /^[1-9][0-9]*/.match?(pool)
       options[:pool] = pool.to_i
     else
       warn "Wrong pool id: #{pool}. It should be a number greater than 0."

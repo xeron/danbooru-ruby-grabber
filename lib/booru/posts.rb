@@ -91,11 +91,11 @@ class Booru
       puts 'saved!'
     end
     FileUtils.ln_sf(File.join('..', path), File.join(target, filename)) if options[:storage]
-    write_tags(filename, tag_string, bbs) unless old_bbs =~ /^#{filename}/
+    write_tags(filename, tag_string, bbs) unless /^#{filename}/.match?(old_bbs)
   end
 
   def get_url(file_url)
-    if file_url =~ URI::DEFAULT_PARSER.make_regexp
+    if URI::DEFAULT_PARSER.make_regexp.match?(file_url)
       file_url
     elsif file_url.start_with?(self.class::API_BASE_URL.gsub('http:', ''))
       'http:' + file_url
