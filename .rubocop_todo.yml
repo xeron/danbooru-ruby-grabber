@@ -1,36 +1,27 @@
-# Offense count: 38
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
-# Offense count: 6
 Metrics/AbcSize:
   Max: 42
 
-# Offense count: 1
 Metrics/ClassLength:
   Max: 128
 
-# Offense count: 3
 Metrics/CyclomaticComplexity:
   Max: 11
 
-# Offense count: 8
 Metrics/MethodLength:
   Max: 41
 
-# Offense count: 2
 Metrics/ParameterLists:
   Max: 7
 
-# Offense count: 3
 Metrics/PerceivedComplexity:
   Max: 14
 
-# Offense count: 5
 Style/Documentation:
   Enabled: false
 
-# Offense count: 12
 Style/MutableConstant:
   Exclude:
     - 'lib/behoimi.rb'

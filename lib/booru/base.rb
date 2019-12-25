@@ -73,7 +73,7 @@ class Booru
         warn 'Too many redirects.'
         exit 1
       end
-    else return response.value
+    else response.value
     end
   end
 

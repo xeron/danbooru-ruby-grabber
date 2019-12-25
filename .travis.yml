@@ -12,7 +12,7 @@ script:
 rvm:
   - 2.6.5
   - 2.5.7
-  - 2.4.8
+  - 2.4.9
   - rubinius-4
 gemfile:
   - Gemfile
