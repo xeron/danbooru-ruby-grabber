@@ -32,10 +32,15 @@ class Booru
   private
 
   def do_request(url, params = {}, method = :get, data = nil, format = :json, url_prepared = false, limit = 10)
-    full_params = params.merge(
-      login: options[:user],
-      password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
-    )
+    full_params =
+      if options[:user].nil? || options[:password].nil?
+        params
+      else
+        params.merge(
+          login: options[:user],
+          password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
+        )
+      end
     full_url =
       if url_prepared
         url

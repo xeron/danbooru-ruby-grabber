@@ -1,3 +1,4 @@
 class Testbooru < Danbooru
-  API_BASE_URL = 'http://testbooru.donmai.us'
+  API_BASE_URL = 'https://testbooru.donmai.us'
+  PASSWORD_SALT = 'choujin-steiner'
 end
