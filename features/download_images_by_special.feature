@@ -3,7 +3,7 @@ Feature: Download images by special
 
   @danbooru
   Scenario: Download images from danbooru
-    Given I want to download images from testbooru with special tag and save them using default pattern
+    Given I want to download images from danbooru with special tag and save them using default pattern
     When I run script to download images using default saver
     Then I should see downloaded images by tag
     And I should see images in bbs file
