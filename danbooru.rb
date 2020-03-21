@@ -8,7 +8,6 @@ require 'booru'
 require 'danbooru'
 require 'testbooru'
 require 'konachan'
-require 'e621'
 require 'behoimi'
 require 'yandere'
 
@@ -20,7 +19,7 @@ optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.separator("\nTarget:")
   opts.on(
     '-b', '--board BOARDNAME',
-    'Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere'
+    'Target board. Supported options: danbooru (default), konachan, behoimi, yandere'
   ) do |board|
     options[:board] = board.to_sym
   end
@@ -113,8 +112,6 @@ else
     case options[:board]
     when :konachan
       Konachan.new(options)
-    when :e621
-      E621.new(options)
     when :behoimi
       Behoimi.new(options)
     when :yandere

@@ -2,7 +2,7 @@
 
 ## Overview
 
-danbooru-ruby-grabber is a danbooru downloader — simple script which downloads images from danbooru.donmai.us, konachan.com, e621.net, behoimi.org and yande.re. Support of any danbooru-powered site could be added easily.
+danbooru-ruby-grabber is a danbooru downloader — simple script which downloads images from danbooru.donmai.us, konachan.com, behoimi.org and yande.re. Support of any danbooru-powered site could be added easily.
 
 ## Usage
 
@@ -10,7 +10,7 @@ danbooru-ruby-grabber is a danbooru downloader — simple script which downloads
 Usage: danbooru.rb [options] "tags"
 
 Target:
-    -b, --board BOARDNAME            Target board. Supported options: danbooru (default), konachan, e621, behoimi, yandere
+    -b, --board BOARDNAME            Target board. Supported options: danbooru (default), konachan, behoimi, yandere
     -P, --pool POOL_ID               Pool ID (tags will be ignored)
 
 Storage options:

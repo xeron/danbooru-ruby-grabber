@@ -28,6 +28,5 @@ Style/MutableConstant:
     - 'lib/booru/base.rb'
     - 'lib/danbooru.rb'
     - 'lib/testbooru.rb'
-    - 'lib/e621.rb'
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'

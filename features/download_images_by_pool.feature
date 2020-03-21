@@ -15,13 +15,6 @@ Feature: Download images by pool
     Then I should see downloaded images by pool
     And I should see images in bbs file
 
-  @e621
-  Scenario: Download images from e621
-    Given I want to download images from e621 pool and save them using md5
-    When I run script to download images using curl
-    Then I should see downloaded images by pool
-    And I should see images in bbs file
-
   @behoimi
   Scenario: Download images from behoimi
     Given I want to download images from behoimi pool and save them using url
