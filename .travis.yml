@@ -10,10 +10,10 @@ script:
   - bundle exec rake spec:ci
   - bundle exec rake rubocop
 rvm:
-  - 2.7.0
-  - 2.6.5
-  - 2.5.7
-  - 2.4.9
+  - 2.7.1
+  - 2.6.6
+  - 2.5.8
+  - 2.4.10
   - rubinius-4
 gemfile:
   - Gemfile
