@@ -36,7 +36,6 @@ optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   end
 
   opts.separator("\nStorage options:")
-  opts.separator("    `-f tags` could miss some files due to filesystems' filename length limitation.")
   opts.on(
     '-s', '--storage DIR',
     'Storage mode (all images in one dir and symlinks in tagged dirs)'
@@ -44,17 +43,18 @@ optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
     options[:storage] = dir
   end
   opts.on(
-    '-f', '--filename PATTERN',
-    'Filename pattern. Supported options: id (default), md5, tags, url (old default)'
-  ) do |filename|
-    options[:filename] = filename.to_sym
-  end
-  opts.on(
     '-d', '--directory BASE_DIR',
     'Base directory to save images. By default it uses the same location as script'
   ) do |base_path|
     options[:base_path] = base_path
   end
+  opts.on(
+    '-f', '--filename PATTERN',
+    'Filename pattern. Supported options: id (default), md5, tags, url (old default)'
+  ) do |filename|
+    options[:filename] = filename.to_sym
+  end
+  opts.separator("\tNote: `-f tags` could miss some files due to filesystems' filename length limitation.")
 
   opts.separator("\nAuthentication:")
   opts.separator('    This is optional, but recommended since some boards block access without authentication.')
