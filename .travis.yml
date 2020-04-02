@@ -14,7 +14,6 @@ rvm:
   - 2.6
   - 2.5
   - 2.4
-  - rubinius-4
 gemfile:
   - Gemfile
 notifications:
@@ -22,5 +21,3 @@ notifications:
     - xeron.oskom@gmail.com
 matrix:
   fast_finish: true
-  allow_failures:
-    - rvm: rubinius-4
