@@ -71,8 +71,10 @@ class Booru
       url = get_url(post_data['file_url'])
       md5 = post_data['md5']
     else
-      url, md5 = get_data_from_html(post_data['id'])
-      return nil if url.nil?
+      # url, md5 = get_data_from_html(post_data['id'])
+      # return if url.nil?
+      puts "File url is unknown for #{post_data['id']}."
+      return
     end
     filename = get_filename(post_data, md5, url)
     tag_string = self.class::OLD_API ? post_data['tags'] : post_data['tag_string']
