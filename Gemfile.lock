@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
-    backports (3.17.0)
+    backports (3.17.1)
     builder (3.2.4)
     cucumber (3.1.2)
       builder (>= 2.1.2)
@@ -30,7 +30,7 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     parallel (1.19.1)
-    parser (2.7.0.5)
+    parser (2.7.1.0)
       ast (~> 2.4.0)
     rainbow (3.0.0)
     rake (13.0.1)
