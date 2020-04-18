@@ -22,7 +22,7 @@ Storage options:
 Authentication:
     This is optional, but recommended since some boards block access without authentication.
     -u, --user USERNAME              Username
-    -p, --password PASSWORD          Password
+    -p, --password PASSWORD          Password (API Key for danbooru)
 
 Tools:
     Ruby's file saver is used by default. You can change it using this options. `wget` or `curl` binaries should be available.

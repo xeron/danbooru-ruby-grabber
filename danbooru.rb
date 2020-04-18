@@ -61,7 +61,7 @@ optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.on('-u', '--user USERNAME', 'Username') do |user|
     options[:user] = user
   end
-  opts.on('-p', '--password PASSWORD', 'Password') do |pass|
+  opts.on('-p', '--password PASSWORD', 'Password (API Key for danbooru)') do |pass|
     options[:password] = pass
   end
 

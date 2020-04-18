@@ -8,7 +8,7 @@ AllCops:
     - 'bundle/**/*'
     - 'vendor/**/*'
     - 'images/**/*'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
 
 Style/FrozenStringLiteralComment:
   Enabled: false

@@ -13,6 +13,7 @@ require 'digest/md5'
 class Booru
   API_BASE_URL = 'http://example.com'
   PASSWORD_SALT = nil
+  BASIC_AUTH = true
   OLD_API = false
   USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0'
 
@@ -32,21 +33,8 @@ class Booru
   private
 
   def do_request(url, params = {}, method = :get, data = nil, format = :json, url_prepared = false, limit = 10)
-    full_params =
-      if options[:user].nil? || options[:password].nil?
-        params
-      else
-        params.merge(
-          login: options[:user],
-          password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
-        )
-      end
-    full_url =
-      if url_prepared
-        url
-      else
-        prepare_url(url, full_params)
-      end
+    full_params = get_query_params(params)
+    full_url = url_prepared ? url : prepare_url(url, full_params)
     uri = URI.join(self.class::API_BASE_URL, full_url)
     http_params = {
       'User-Agent' => USER_AGENT,
@@ -65,6 +53,10 @@ class Booru
       request = Net::HTTP::Post.new(uri.request_uri, http_params)
       request.content_type = 'application/x-www-form-urlencoded'
       request.body = "data=#{data}" if data
+    end
+
+    if BASIC_AUTH && !options[:user].nil? && !options[:password].nil?
+      request.basic_auth(options[:user], options[:password])
     end
 
     response = http.request(request)
@@ -87,6 +79,17 @@ class Booru
       url,
       full_params.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join('&')
     ].join('?').gsub('%2B', '+')
+  end
+
+  def get_query_params(params)
+    if options[:user].nil? || options[:password].nil? || BASIC_AUTH
+      params
+    else
+      params.merge(
+        login: options[:user],
+        password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
+      )
+    end
   end
 
   def get_password_hash(password, salt)

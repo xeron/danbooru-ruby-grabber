@@ -1,6 +1,7 @@
 class Behoimi < Booru
   API_BASE_URL = 'http://behoimi.org'
   PASSWORD_SALT = 'meganekko-heaven'
+  BASIC_AUTH = false
   OLD_API = true
   REFERER = 'http://behoimi.org/post/show'
 
