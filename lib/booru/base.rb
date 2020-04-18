@@ -13,7 +13,7 @@ require 'digest/md5'
 class Booru
   API_BASE_URL = 'http://example.com'
   PASSWORD_SALT = nil
-  BASIC_AUTH = true
+  API_KEY = true
   OLD_API = false
   USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0'
 
@@ -55,10 +55,6 @@ class Booru
       request.body = "data=#{data}" if data
     end
 
-    if BASIC_AUTH && !options[:user].nil? && !options[:password].nil?
-      request.basic_auth(options[:user], options[:password])
-    end
-
     response = http.request(request)
 
     case response
@@ -82,21 +78,19 @@ class Booru
   end
 
   def get_query_params(params)
-    if options[:user].nil? || options[:password].nil? || BASIC_AUTH
-      params
-    else
-      params.merge(
-        login: options[:user],
-        password_hash: get_password_hash(options[:password], self.class::PASSWORD_SALT)
-      )
+    unless options[:user].nil? || options[:password].nil?
+      password_key = API_KEY ? :api_key : :password_hash
+      params[:login] = options[:user]
+      params[password_key] = get_password_hash(options[:password], self.class::PASSWORD_SALT)
     end
+    params
   end
 
   def get_password_hash(password, salt)
     if salt
       Digest::SHA1.hexdigest("#{salt}--#{password}--")
     else
-      options[:password]
+      password
     end
   end
 
