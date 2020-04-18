@@ -81,16 +81,16 @@ class Booru
     unless options[:user].nil? || options[:password].nil?
       password_key = API_KEY ? :api_key : :password_hash
       params[:login] = options[:user]
-      params[password_key] = get_password_hash(options[:password], self.class::PASSWORD_SALT)
+      params[password_key] = get_password_hash(self.class::PASSWORD_SALT)
     end
     params
   end
 
-  def get_password_hash(password, salt)
+  def get_password_hash(salt)
     if salt
-      Digest::SHA1.hexdigest("#{salt}--#{password}--")
+      Digest::SHA1.hexdigest("#{salt}--#{options[:password]}--")
     else
-      password
+      options[:password]
     end
   end
 
