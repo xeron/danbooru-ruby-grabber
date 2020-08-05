@@ -6,7 +6,7 @@ Given(/^I want to download images from (\S+) and save them using (.*)$/) do |boa
   ]
   filenames = pattern == 'default pattern' ? '' : "-f #{pattern}"
 
-  @cmd = "ruby danbooru.rb #{limits.sample} #{filenames} -b #{board} '#{@tags}'"
+  @cmd = "#{BASE_CMD} #{limits.sample} #{filenames} -b #{board} '#{@tags}'"
 end
 
 Then(/^I should see images and tags in bbs file$/) do

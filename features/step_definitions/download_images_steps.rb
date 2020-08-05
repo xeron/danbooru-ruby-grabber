@@ -10,7 +10,7 @@ end
 
 Then(/^I should see downloaded images by (.*)$/) do |source|
   fm = FileMagic.new
-  @dir = sanitize_filename(@tags, pool: source == 'pool')
+  @dir = File.join(BASE_DIR, sanitize_filename(@tags, pool: source == 'pool'))
   files = list_files(@dir)
   @images = files - ['files.bbs']
 

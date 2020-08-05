@@ -32,6 +32,9 @@ SAVER_MATRIX = {
   'wget' => ' -w'
 }.freeze
 
+BASE_DIR = './features/images'.freeze
+BASE_CMD = "ruby danbooru.rb -d #{BASE_DIR}".freeze
+
 # Clean all files before and after each scenario
 Before do
   clean_files
@@ -44,8 +47,8 @@ end
 def clean_files
   pools_dirs = POOLS_MATRIX.values.map { |v| v['name'] }
   (TAGS_MATRIX.values + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
-    actual_dir1 = sanitize_filename(dir, pool: false)
-    actual_dir2 = sanitize_filename(dir, pool: true)
+    actual_dir1 = File.join(BASE_DIR, sanitize_filename(dir, pool: false))
+    actual_dir2 = File.join(BASE_DIR, sanitize_filename(dir, pool: true))
     FileUtils.rm_r(actual_dir1) if Dir.exist?(actual_dir1)
     FileUtils.rm_r(actual_dir2) if Dir.exist?(actual_dir2)
   end

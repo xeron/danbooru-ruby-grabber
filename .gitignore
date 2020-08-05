@@ -3,4 +3,5 @@ images
 .bundle
 bundle
 vendor/bundle
-features/images/**/*
+features/images
+!features/images/.gitkeep
