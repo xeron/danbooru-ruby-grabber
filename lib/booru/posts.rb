@@ -100,7 +100,7 @@ class Booru
     if URI::DEFAULT_PARSER.make_regexp.match?(file_url)
       file_url
     elsif file_url.start_with?(self.class::API_BASE_URL.gsub('http:', ''))
-      'http:' + file_url
+      "http:#{file_url}"
     else
       self.class::API_BASE_URL + file_url
     end

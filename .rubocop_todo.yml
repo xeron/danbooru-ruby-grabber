@@ -2,7 +2,7 @@ Layout/LineLength:
   Max: 120
 
 Metrics/AbcSize:
-  Max: 40
+  Max: 41
 
 Metrics/ClassLength:
   Max: 128
@@ -30,3 +30,7 @@ Style/MutableConstant:
     - 'lib/testbooru.rb'
     - 'lib/konachan.rb'
     - 'lib/yandere.rb'
+
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'lib/booru/base.rb'

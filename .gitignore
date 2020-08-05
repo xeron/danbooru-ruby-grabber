@@ -3,3 +3,4 @@ images
 .bundle
 bundle
 vendor/bundle
+features/images/**/*

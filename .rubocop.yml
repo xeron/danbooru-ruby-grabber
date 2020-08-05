@@ -9,6 +9,7 @@ AllCops:
     - 'vendor/**/*'
     - 'images/**/*'
   TargetRubyVersion: 2.7
+  NewCops: enable
 
 Style/FrozenStringLiteralComment:
   Enabled: false

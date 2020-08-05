@@ -1,11 +1,6 @@
 When(/^I run script to download images using (.*)$/) do |saver|
-  @cmd +=
-    case saver
-    when 'default saver' then ''
-    when 'curl' then ' -c'
-    when 'wget' then ' -w'
-    end
-  puts @cmd
+  @cmd += SAVER_MATRIX[saver]
+  log(@cmd)
 
   output = `#{@cmd}`
 
@@ -15,7 +10,7 @@ end
 
 Then(/^I should see downloaded images by (.*)$/) do |source|
   fm = FileMagic.new
-  @dir = sanitize_filename(@tags, source == 'pool')
+  @dir = sanitize_filename(@tags, pool: source == 'pool')
   files = list_files(@dir)
   @images = files - ['files.bbs']
 

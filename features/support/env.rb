@@ -26,6 +26,12 @@ PER_PAGE = 3
 PAGES = 2
 POSTS_COUNT = PER_PAGE * PAGES
 
+SAVER_MATRIX = {
+  'default saver' => '',
+  'curl' => ' -c',
+  'wget' => ' -w'
+}.freeze
+
 # Clean all files before and after each scenario
 Before do
   clean_files
@@ -38,8 +44,8 @@ end
 def clean_files
   pools_dirs = POOLS_MATRIX.values.map { |v| v['name'] }
   (TAGS_MATRIX.values + pools_dirs + SPECIAL_MATRIX.values).each do |dir|
-    actual_dir1 = sanitize_filename(dir, false)
-    actual_dir2 = sanitize_filename(dir, true)
+    actual_dir1 = sanitize_filename(dir, pool: false)
+    actual_dir2 = sanitize_filename(dir, pool: true)
     FileUtils.rm_r(actual_dir1) if Dir.exist?(actual_dir1)
     FileUtils.rm_r(actual_dir2) if Dir.exist?(actual_dir2)
   end
@@ -51,8 +57,8 @@ def list_files(dir, pattern = '*')
   end
 end
 
-def sanitize_filename(filename, pool = false)
-  result = filename.gsub(%r{[\?\*\/\\\:]}, '_')
+def sanitize_filename(filename, pool: false)
+  result = filename.gsub(%r{[?*/\\:]}, '_')
   space_sub = pool ? '_' : '+'
   result.gsub(' ', space_sub)
 end
