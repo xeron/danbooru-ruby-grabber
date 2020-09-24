@@ -16,7 +16,7 @@ POOLS_MATRIX = {
   'yandere' => { 'id' => 1184, 'name' => 'E☆2 Etsu Magazine vol. 22 2009-12' }
 }.freeze
 SPECIAL_MATRIX = {
-  'danbooru' => 'order:rank',
+  'danbooru' => 'rating:safe',
   'testbooru' => 'order:rank',
   'konachan' => 'vote:3:opai',
   'behoimi' => 'user:darkgray',
