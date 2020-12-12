@@ -15,6 +15,7 @@ Metrics/MethodLength:
 
 Metrics/ParameterLists:
   Max: 7
+  MaxOptionalParameters: 6
 
 Metrics/PerceivedComplexity:
   Max: 13
