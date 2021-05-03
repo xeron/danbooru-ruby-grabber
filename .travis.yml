@@ -10,9 +10,9 @@ script:
   - bundle exec rake spec:ci
   - bundle exec rake rubocop
 rvm:
+  - 3.0
   - 2.7
   - 2.6
-  - 2.5
 gemfile:
   - Gemfile
 notifications:
@@ -20,3 +20,5 @@ notifications:
     - xeron.oskom@gmail.com
 matrix:
   fast_finish: true
+  allow_failures:
+    - rvm: 3.0
