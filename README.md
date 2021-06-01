@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/xeron/danbooru-ruby-grabber.svg?branch=master)](https://travis-ci.org/xeron/danbooru-ruby-grabber)
+[![Build Status](https://travis-ci.com/xeron/danbooru-ruby-grabber.svg?branch=master)](https://travis-ci.com/github/xeron/danbooru-ruby-grabber)
 
 ## Overview
 
