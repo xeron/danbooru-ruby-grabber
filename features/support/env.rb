@@ -2,7 +2,7 @@ require 'fileutils'
 require 'filemagic'
 
 TAGS_MATRIX = {
-  'danbooru' => 'touhou older',
+  'danbooru' => 'touhou dress',
   'testbooru' => 'tagme highres',
   'konachan' => 'robotics;notes',
   'behoimi' => 'touhou',
