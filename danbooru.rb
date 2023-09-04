@@ -67,8 +67,8 @@ optparse = OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
 
   opts.separator("\nTools:")
   opts.separator(
-    "    Ruby's file saver is used by default. You can change it using this options." \
-    ' `wget` or `curl` binaries should be available.'
+    "    Ruby's file saver is used by default. You can change it using this options. " \
+    '`wget` or `curl` binaries should be available.'
   )
   opts.on('-w', '--wget', 'Download using wget') do
     options[:downloader] = :wget
@@ -105,7 +105,7 @@ rescue StandardError => e
   puts e
 end
 
-if !options[:pool] && (ARGV.length.zero? || ARGV[0].empty?)
+if !options[:pool] && (ARGV.empty? || ARGV[0].empty?)
   puts optparse.help
 else
   board =

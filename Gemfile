@@ -4,7 +4,7 @@ gem 'json'
 gem 'nokogiri'
 
 group :development, :test do
-  # gem 'byebug', require: false
+  # gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'cucumber', require: false
   gem 'rake', require: false
   gem 'rspec', require: false

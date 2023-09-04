@@ -4,7 +4,7 @@ require 'cucumber/rake/task'
 require 'rubocop/rake_task'
 
 Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = 'features --format pretty'
+  t.cucumber_opts = ['features', '--format', 'pretty']
 end
 
 namespace :spec do

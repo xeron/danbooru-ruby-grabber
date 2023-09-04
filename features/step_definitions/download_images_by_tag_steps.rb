@@ -11,7 +11,7 @@ end
 
 Then(/^I should see images and tags in bbs file$/) do
   bbs_file = File.join(@dir, 'files.bbs')
-  bbs = File.open(bbs_file).read
+  bbs = File.read(bbs_file)
 
   expect(bbs.split("\n").size).to eq @images_count
   @tags.split.each do |tag|
