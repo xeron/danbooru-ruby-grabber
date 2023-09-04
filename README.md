@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/xeron/danbooru-ruby-grabber.svg?branch=master)](https://travis-ci.com/github/xeron/danbooru-ruby-grabber)
-
 ## Overview
 
 danbooru-ruby-grabber is a danbooru downloader — simple script which downloads images from danbooru.donmai.us, konachan.com, behoimi.org and yande.re. Support of any danbooru-powered site could be added easily.
