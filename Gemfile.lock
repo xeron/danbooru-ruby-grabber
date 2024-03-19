@@ -28,39 +28,26 @@ GEM
       cucumber-messages (>= 18.0, < 22.1)
     cucumber-messages (21.0.1)
     cucumber-tag-expressions (4.1.0)
-    debug (1.8.0)
-      irb (>= 1.5.0)
-      reline (>= 0.3.1)
     diff-lcs (1.5.0)
     ffi (1.15.5)
-    io-console (0.6.0)
-    irb (1.8.0)
-      rdoc (~> 6.5)
-      reline (>= 0.3.6)
     json (2.6.3)
     language_server-protocol (3.17.0.3)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
+    mini_portile2 (2.8.5)
     multi_test (1.1.0)
-    nokogiri (1.15.4)
+    nokogiri (1.15.6)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.15.4-arm64-darwin)
+    nokogiri (1.15.6-arm64-darwin)
       racc (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    psych (5.1.0)
-      stringio
-    racc (1.7.1)
+    racc (1.7.3)
     rainbow (3.1.1)
     rake (13.0.6)
-    rdoc (6.5.0)
-      psych (>= 4.0.0)
     regexp_parser (2.8.1)
-    reline (0.3.8)
-      io-console (~> 0.5)
     rexml (3.2.6)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -104,7 +91,6 @@ GEM
       rubocop-factory_bot (~> 2.22)
     ruby-filemagic (0.7.3)
     ruby-progressbar (1.13.0)
-    stringio (3.0.8)
     sys-uname (1.2.3)
       ffi (~> 1.1)
     unicode-display_width (2.4.2)
@@ -115,7 +101,6 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
-  debug
   json
   nokogiri
   rake
